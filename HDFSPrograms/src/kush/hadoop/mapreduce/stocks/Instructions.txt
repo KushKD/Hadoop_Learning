@@ -1,0 +1,48 @@
+Running the Program Steps
+
+
+1). Export the Project as runnable Jar
+2). Run the jar to Hadoop Cluster, Just copy the jar to hadoop cluster using Winscp
+3).Copy the JAR to /home/hirwuser1249/Programs
+4).Locate the Input Location  /user/hirw/input/stocks 
+Note: This DataSet is of 400 MB
+5). Locate the Output Location    /home/hirwuser1249/output/mapreduce/stocks
+6). Hadoop Command to actually run the Hadoop Map Reduce Program
+7). hadoop jar /home/hirwuser1249/Programs/nameOfJar.JAR   kush.hadoop.mapreduce.stocks.MaxClosePrice  /user/hirw/input/stocks   /home/hirwuser1249/output/mapreduce/stocks  
+7). View the result 
+    hadoop fs -cat /home/hirwuser1249/output/mapreduce/stocks/part-r-00000
+    
+  Notes:-
+  Here is an article on changing the number of reducers - http://hadoopinrealworld.com/changing-number-of-reducers-in-hadoop/
+  .i.e update the driver program with the below line
+  		job.setNumReduceTasks(5);
+  		
+==================================================================================================  		
+Map Phase                           Shuffle Pase                        Reduce Phase 
+
+     MApper                 Sort              Copy        Merge
+
+     We can also have combiners
+
+     Mapper                 Sort             Combiner            Copy       
+     
+====================================================================================================
+
+
+
+     Hi Sameer,
+
+Good question.
+
+An InputSplit is technically a path to the file, the start location in the file and the split size and the list of hosts which has the blocks corresponding to the Split.
+
+FileSplit(Path file, long start, long length, String[] hosts)
+
+Assuming the InputSplit size is close to the size of the blocks, assuming the block size is 128 MB, the length parameter above will be 128 MB. So when the InputSplits are created they merely resemble the blocks.
+
+InputSplits are created before any Mapper is executed and as soon as you submit the job to the cluster. Mappers are created to process each InputSplit. When the Mapper execute that is when the records are looked up. When a Mapper starts processing the 
+InputSplit it asks for a Record, if the first Record does not start in the Split ("broken record"), the RecordReader skips that "broken record" and gets the next record in the Split for processing.
+Now at the end of the Split when Mapper asks for the last Record in the file and if the split does not have the full record, the RecordReader will reach out the next block to get the remaining of the record.
+
+So the Mapper skips the first record if the first record in the InputSplit is broken but fetch the record from the next block if the last record in the Split is broken. 
+So the "broken record" even skipped by the current mapper will be processed by a Mapper before it.     		
