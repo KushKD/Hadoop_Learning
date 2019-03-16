@@ -1,0 +1,23 @@
+===========================================================================================================
+Combiner
+===========================================================================================================
+
+Combiner is an optional program which will be executed at the map phase after the execution of the mapper on
+the map output.
+
+There are two key benifits of using the Combiner
+Decreasing the network usage 
+ increasing the performance on reduce phase
+ 
+ #Code to be written in the driver class
+ job.setCombinerClass(MaxClosePriceReducer.class);
+ 
+ #Creating a Custom Combiner
+ Custom class which implements the reducer interface 
+ KEY Value input and Output should map the Key Value Input nd Output of Mapper
+ Cominer Output key value must match MApper output key Value
+ 
+ ========================================================================================================
+ Counters
+ ========================================================================================================
+ Counters Provide Consolidated Information about the JOB.
