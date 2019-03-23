@@ -1,0 +1,47 @@
+Mapper Class Structure
+
+For any job to there are bassically three classes
+   Mapper
+   Reducer
+   Driver
+   
+To serve as a Mapper class the class should Implement the MApper Interface and Inherits 
+the map reduce base class and override the methods present in both the interface and the extended class.
+
+The mapper Interface expects four generics which defines the input and output key value pairs
+Mapper<LongWritable,Text,Text,IntWritable>
+LongWritable == Input Key  coming from the Input File
+Text ==  Input Value    coming from the Input File
+Text ==  Output Key
+IntWritable ==Output Value
+
+Hadoop 1
+The MapReduceBase class searves the base class for both mappers and Reducers.
+
+MapReduce Class Methords
+ void Setup  (Jobconf object)  
+ void cleanup ()  == this is called when the map task is finished
+ void Map  == This is the main function which applies the whole logic on key value pairs.
+ public void map(LongWritable Key,Text value,OutputCollector<Text,IntWritable> output,Reporter reporter) thows Exception {
+   //Logic for data processings
+   //output.collect(key,value);
+ }
+ 
+This mapper structure is used in Hadoop 1 Only. In Hadoop 2 the APIs are changed.
+Hadoop 2
+public class Mapper extends Mapper<LongWritable,Text,Text,IntWritable>{
+
+ 	public void Map(LongWritable Key,Text value,Context context) throws IO EXception{
+ 	
+ 	//Logic for Data Processing
+ 	//obj.write(key,value);
+ 	}
+}
+
+Types Of Mappers
+Identity Mapper == Mapper<K,V,K,V)  Default mapper used to write the output same as input
+Inverse Mapper == Mapper (<K,V,V,K> Used to reverse the Key Value Pair
+Regex Mapper == MApper Mapper <K,Text,Text,LongWritable> Provides a way to use Regular Expression in Map Function
+Token counter MApper == Mapper <K,Text,Text,LongWritable> Used to Generate token counts for Key.
+
+We need to define the mapper Interface in Driver Class

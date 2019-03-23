@@ -1,0 +1,114 @@
+Map Reduce Phases
+
+Input File
+Input Splits
+Mapper
+Partitioning and Shuffeling
+Reducer
+Final Output
+
+File Input Format
+File Input Format describes a way to read an Input File. A normal Text file can be full of data with number of lines. 
+File Input Format tells the Framework what is the key and what i the value in that input file.
+File Input Format is a class with a lot of Member Functions
+File Input Format decides the Key Value pair from the Input File and passes the Key Vlue PAir to Mapper
+
+			There are Primarily Six Input Formats
+			Text  Input Format
+			KEY VALUE Text Input Format
+			Fixed Line Input Format
+			N Line Input Format
+			Combile Line Input Format
+			Sequence Line Input Format
+			        Sequence File as Text Input Format
+			        Sequence File as Binary Input Format
+			
+[I]
+TextFile  Input Format :- It is the Default Input formatter of Map Reduce.
+
+Suppose this is the Input File
+===============================================================================================================================================================
+========== Check my other courses also
+========== Hive to advance Hive
+========== Best Selling Course
+========== Advanced Hive Explained with 
+================================================================================================================================================================
+TextFileInput Format decides the KEY Value Pair from the Input File as  (Each caracter is of i byte)
+Value is the full line till the delemeter
+===============================================================================
+		|		<Key> IS Byte Offset				<Value> of Full Record    |
+		|		0								Check my other courses also   |
+		|		27								Hive to advance Hive          |
+		|		48								Best Selling Course           |
+		|		68								Advanced Hive Explained with  | 
+===============================================================================	
+
+
+
+[II]
+KEY VALUE TEXT INPUT FORMAT
+In this format each line in the file is a record input and here key values are seperated via seperator.
+Key is everything before the seperator
+Value is everything after the seperator
+Seperator can be anything	
+
+e.g.
+
+Suppose this is the Input File
+===============================================================================================================================================================
+========== Please <tab> Check my other courses also
+========== Name <tab> Hive to advance Hive
+========== Seller <tab> Best Selling Course
+========== Content <tab> Advanced Hive Explained with 
+================================================================================================================================================================
+
+KEY Value PAir
+===============================================================================
+		|		<Key> IS Byte Offset				<Value> of Full Record    |
+		|		Please							Check my other courses also   |
+		|		Name								Hive to advance Hive      |
+		|		Seller								Best Selling Course       |
+		|		Content							Advanced Hive Explained with  | 
+===============================================================================	
+
+
+[III]
+
+N-Line Input Formatter
+It is another form of Text Input Format where keys are byte offset of the lines and values are content of the lines. There will be n no of mappers for n number of lines. 
+In N-Line input formattor we cannot
+decide how many lines the mapper will process but we can define how many lines will be processed by mapper.
+In this class N = 1 means each mapper will recieve 1 line of Input
+
+Suppose this is the Input File
+===============================================================================================================================================================
+==========  Check my other courses also
+========== Hive to advance Hive
+========== Best Selling Course
+========== Advanced Hive Explained with 
+================================================================================================================================================================
+
+
+===============================================================================
+		|		<Key> IS Byte Offset				<Value> of Full Record    |
+		|		0								Check my other courses also   mapper1 |
+		|		27								Hive to advance Hive          mapper 2|
+		|		48								Best Selling Course            mapper 3|
+		|		68								Advanced Hive Explained with  mapper 4| 
+===============================================================================	
+
+[IV]
+SequenceFile Input Format
+Used to read the sequence files
+Read the data from Intermediate Map Files
+It Stores the data in form of Binary KEy Value PAir
+Key and Values are user defined. We can explicitly define the key value pair from the input file
+These can be further divided into two:- 
+ -> Sequence file as Text Input Format  -- It converts the sequence key value pairs to Text objects by calling toString method
+ -> Sequence File as Binary Input format -- It retieves the sequence file key and value as Binary Object
+ 
+ 
+
+
+	
+				

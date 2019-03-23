@@ -1,0 +1,15 @@
+Partitioner Class Structure
+
+It takes a key value pair from mapper and for each key it creates list of values which is feed to reducer. 
+Moreover, Partitioner also decides which key value pair will go to which reducer as in a job there may be n number of Reducers.
+
+
+public abstract class Partitioner <Key,Value> extends Object
+{
+	 		 public abstract int getPartition<KEY key, VALUE value, int numPartitions>
+
+}
+
+By Default Map Reducer uses HashParttioner class
+
+Suffleing Sorting and Partitioning in Details

@@ -1,0 +1,39 @@
+Basic Structure of Reducer
+
+Reducer takes the Input from Mappaer or to be very pecific it takes the input from Partitioner
+
+Mapper Outpur<k,v> ---->  Partitioner Output <K,L[V]> ----> Reducer
+
+Default Code of a Reducer
+Hadoop 1
+public class myReducer extends MapReduceBase Implements Reducer<Text,IntWritable,Text,IntWritable>{
+
+		public void reduce (Text key, Iterator<IntWritable> values, OutputCollecter<Text,IntWritable> output, Reporter reporter){
+		
+		//Logic
+		//output.collect(KEY,VALUE);
+		
+		}
+
+
+
+}
+
+
+Hadoop 2
+public class myReducer extends Reducer <Text,IntWritable,Text,IntWritable>{
+
+		public void reduce (Text key, Iterator<IntWritable> values, Context context){
+		
+		//Logic
+		//output.collect(KEY,VALUE);
+		
+		}
+
+
+
+}
+
+Types Of Reducer
+Identity Reducer == Default reducer used to erite the output same as Input == Reducer<Key,List[Values] , Key List[Values]>
+Long Sum Reducer == Used to determine sum of all values corresponding to a given key. == Reducer<Key,Iterator<IntWritable> values, KEY, LongWriteable>

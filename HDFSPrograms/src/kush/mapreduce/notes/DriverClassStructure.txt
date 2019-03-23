@@ -1,0 +1,16 @@
+Driving Class Structure
+It is the driving class for our map reduce program.
+Create a JobConfig Object
+Set the Name for the Job
+Set the output key type for the mapper
+Set the output value type for the mapper
+Set the output key type for the Reducer
+Set the output value type for the Reducer
+Set mapper Class
+Set Reducer Class
+Set the format of the Input that will be provided to the program
+Set the format of the Output for the pogram
+Set the location where the mapper will read the Input
+Set the location where the Reducer will write the Output
+Run the Job on the cluster
+
