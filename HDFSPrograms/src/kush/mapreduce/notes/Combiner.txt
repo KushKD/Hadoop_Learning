@@ -1,0 +1,13 @@
+Combiner
+
+Where combiner must be used 
+ 
+ Commutative  = A+B =B+A
+ Associative  = (A+B)+C == A+(B+C)
+ 
+ Combiner is a optimization technique to fastern the job execution
+ Combiner reduces the number of key value pairs to be transmitted to reducer
+ It runs locally on each mapper
+ It can run 0,1 or n number of times on a mapper
+ Also known as Mini Reucer
+ It should be used where the nture of problem is Associative and Commutative
