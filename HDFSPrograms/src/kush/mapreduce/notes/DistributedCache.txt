@@ -1,0 +1,10 @@
+Distributed Cache
+To Access small files needed by application during execution. These files are small as they are in KB and MB 
+in size.Type of files are mailny Text, Archive or JAR FIles. Te files are small and kept in cache memoriey which 
+one of the fastest menories.
+These small files are read only files.
+By default Hadoop distributed cache is of 10 GB. This distributed cache size value can be changed inside the
+mappersize.xml.
+
+Implementation of Distributed System
+//TO DO Program
