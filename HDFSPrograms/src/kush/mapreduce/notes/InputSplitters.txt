@@ -1,0 +1,12 @@
+Input Splits
+
+Hadoop Stores the data in the form of Data blocks on various data nodes. The input file is divided into smaller chunks
+with each chunk equal to hadoop block size and is stored as physical data block.
+An Input split may contain any number of Records.
+
+Input Splits is a Logical representation of Blocks
+It ensures that a record is completely processed by a mapper
+Each mapper processes exactly 1 input split
+Input split size is calculated by formula
+ 
+Max (minimum size , Min(maxsize,blocksize))
