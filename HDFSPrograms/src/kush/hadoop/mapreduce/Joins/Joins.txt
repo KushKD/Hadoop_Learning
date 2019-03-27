@@ -1,0 +1,71 @@
+In Map reduce Joins can be performed in two ways:
+	Reduce Side Join
+	Map Side Join
+	
+Reduce Side Join is easy and Simple to run than Map side Join. Before the Reducer Works, 
+Sorting and Shuffling pase is already been completed and this phase sends identical keys to the same reducer
+and te data is organized for us.
+
+Performig Join on organized data is much easy than performing join on unorganized data
+
+
+Sudo Code Flow for Joins Map Reduce
+
+File 1
+
+1 JAck
+2 Simon
+3 Martin
+4 Marry
+5 Jones
+
+File 2
+1 London
+2 Paris
+3 Delhi
+4 Mumbai 
+5 Rome
+
+First the Map Phase output is:-
+Key Value
+1 	JAck
+2 	Simon
+3 	Martin
+4 	Marry
+5 	Jones
+5 	London
+4 	Paris
+3 	Delhi
+2 	Mumbai 
+1 	Rome
+
+Second is the Partitioner Phase: 
+Key 	Value
+1		[(A Jack),(B Paris)]
+2		[(A Simon),(B Rome)]
+3		[(A Martin),(B Mumbai)]
+4		[(A Marry),(B Delhi)]
+5		[(A John),(B London)]
+
+Partitioner has also done the sorting on the basis of key so the reducer will now get a sorted list of Key Value
+Till Now no Joining is done and the Actual joining will be done on reducer Side.
+
+Creating two list on the Basis of File Identifier i.e. A,B
+List one Contains A i.e. jack, Simon, Martin, MArry John
+List Two Contains B i.e. Paris,Rome,Mumbai,Delhi,London
+
+Last step is to join these two lits
+
+Joining the two list will be done using the nested for loop. 
+For every word i list A combine it with every word in list B
+
+This entire Document is of Inner Join
+
+
+
+
+
+
+
+
+
