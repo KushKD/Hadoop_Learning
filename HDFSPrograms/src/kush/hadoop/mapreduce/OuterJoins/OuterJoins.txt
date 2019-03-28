@@ -1,0 +1,31 @@
+Left Outer Join
+Right Outer Join
+Full Outer Joins
+
+File 1
+Emp  IT	  Emp Name 		Position		Salary		MGR ID		Dept Id
+1281,     Shawn, 		Architect,		7890, 		1481,		10
+
+File 2
+Dept Id  Dept Name  Location
+10		INVENTORY		HYDERABAD
+
+For doing the Joins we must have  a common column in botht the files.
+
+Left Outer Join
+If I have to perform left outer join on these two files with deartment ID as joining condition then my output will 
+contain all the records whose department Id matches Plus 
+all the reciords from Left whose department Id doesnot matches or is not present in the second file or the
+right file.
+
+Left outer join output all the matching rows from both tables + non matching roes from the left file with null values embedded.
+
+Right Outer Join
+For Right outer Join it i opposite to Left Outer Join
+It Keeps all the MAtching Rows from both the tables + Non matching rows from right table.
+
+Full Outer Join
+Full outer join keeps all the matching Rows and non matching rows from both the data set.
+
+
+Keep Inner Join and Outer Join COnditions for Proper Output
