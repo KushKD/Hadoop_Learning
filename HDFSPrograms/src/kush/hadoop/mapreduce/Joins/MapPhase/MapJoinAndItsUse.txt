@@ -1,0 +1,52 @@
+What are Map Joins and Where They are Used
+
+Join is performed on Mapper Side Rather than going to a Reducer Phase
+Is Used Where Files to be joined have varied Data Structure and not 1 common column key
+
+Is used where files/tables are small enough to be fit into Mappers memory
+
+USed as optimisation technique , at least one dataset should be small enough to be fit into Mappers family
+
+Suppose We have three files
+Product Sales and Store
+
+Product
+
+		Product ID   Product Name   Product Category   Product Rate
+		PR_1			Shoes			Sport				40
+
+
+Sales
+		Store_id	Product_ID					Time    				No of Sales
+		STR_1,			PR_5,				2009-12-29 08:31:21,			7
+
+Store
+	StoreID   Store Locatiom   Store Name
+	STR_1		Bangalore			Walmart 
+	
+Now the problem is , all the three files don't have a common column. 
+Store Id is present in sales and store file and
+ProductId is present in Product and Sales file
+
+Now we want to join all the three files. This is the senerio in which we will use map join
+
+Total Revenue Generator by each store location?
+
+To solve this problem first we have to make all the three file available in the Mapper. So that the mp function
+can access all the data present in these files.
+As we cannot read these three files in a single mapper class, so well be using distributed cache here.
+As the two files are small i.e. product and store we will put tese two files in cache  and during job execution
+Hadoop will put these two file in mapper nodes local memory.
+And the third file will be read from HDFS.
+
+Here Distributed cache gives us two advantages:
+First It has allowed us to read all the three files in one shot.
+Fast join can be performed
+
+
+
+
+
+
+ 
+
