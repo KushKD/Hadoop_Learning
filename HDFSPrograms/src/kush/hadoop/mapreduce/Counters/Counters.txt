@@ -1,0 +1,24 @@
+COUNTERS
+
+Counters is a way to calculate the number of operations within a Mapreduce job.
+Useful for gathering Statestics about the map reduce job.Also used for problem diagnostics
+Whenever a Map Reduce Job Starts execution hadoop initiates counters to collect Job statistics.
+Some of the typical Operations of Hadoop Counters are to get the stats about following.
+		Number of Mappers and Reducers are launched
+		No of Bytes Read and written
+		No of tasks launched and Ran
+		No of Bytes shuffelled across nodes
+		Amount of CPU memory consumed  in the job
+		
+Counters can be of two types
+	Built in Counters
+	Custom Counters
+	
+	By default Map Reduce provides built in counters
+		Built In Counters can be categorized into three Types
+				MapReduce Task Counters   Already handled by Hadoop
+				File System Counters  They track two main things The number of bytes read by file system by map and reduce task and the number of bytes written by each file system by map and reduce task.
+				Job Counters
+	
+To have better monitoring of the Job Hadoop provides a way to create a custom Counter.
+	
