@@ -1,0 +1,20 @@
+Chain Mapper
+
+Chaaining of Multiple Mappers. Meaning Output of one mapper will go to second mapper
+as Input and the output of second Mapper will become input to Third mapper.Tis chain will to number of mappers
+we add and in the end the output of last mapper will go as input to the reducer.
+All these mappers will run in a single map task.
+
+Benifits:-
+MAppers become reusabe with their own logic
+
+org.apache.hadoop.mapreduce.lib.chain.ChainMapper
+
+
+Chaining of Multiple Map Reduce Programs
+Meaning Output of one Map Reduce Program will go to second  Map Reduce Program
+as Input and the output of second  Map Reduce Program will become input to Third  Map Reduce Program.
+This chain will to number of mappers
+we add
+
+
