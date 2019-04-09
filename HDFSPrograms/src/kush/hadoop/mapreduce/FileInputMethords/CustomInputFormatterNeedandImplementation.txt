@@ -1,0 +1,7 @@
+
+Need for Custom Input Formatter
+	1). To create our own key value pairs
+	
+	
+	Problem : We have to create a Input FormatFile for XMLfile
+	

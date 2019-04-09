@@ -1,0 +1,90 @@
+InputFormat is a class which tells how to read data from a file.
+
+InputFormat Class is the base class
+FileInputFormat class inherits the base class 
+The rest classes like 
+		Textfile Input format
+		Key Value Input Format
+		nLine InputFormat
+		SequenceFile Input Format
+		Fixed Length Format
+		
+We can say that TextFile Input Format is inheriting the File Input format class and 
+FileInputFormat class is inheriting the Input format class.
+
+Base Class 
+InputFormat Class
+
+Base class is an abstract class which contains two methords
+	getSplits
+	createRecordReader
+	
+=====================================================================================================================
+getSplits Methord
+
+public abstract List<InputSplit> getSplits (JobContext context) throws exception{
+  //Logic 
+}
+
+Retun type of this methord is of type InputSplit
+This methord helps in creating those splits out of a big Input file and return a list of Input Splits
+
+
+=====================================================================================================================
+createRecordReader
+
+
+public abstract RecordReader<K,V> createRecordReader (InputSplit split, TaskAttemptContect context) throws IOException 
+{
+//Logic
+}
+
+This methors ittrates over the data of Input Split and return a key value pair from it
+This methord will run of every Inputslplit that was created by the methord getSplit
+Its retun type is of type RecordReader in the form of KEy,Value pairs
+
+//Record Reader class actually generates the key value pair and returns the key value pair to this methord. This methord does not produce the key value pair
+This createRecordReader class just calls the constructor of the RecordReader calss to create a Key Value PAir.
+//You can check the logs under /var/log/hadoop-yarn/
+
+=========================================================================================================================================================================
+FileInputFormat class methords
+
+static void addInputPath(Job job, Path path) 					== Add a path to the list of Inputs  for the Map Reduce Jobs
+static void addInputPaths (job job, string commaSeperatedPaths) == Add the given comma seperated paths to the list of Inputs for the map-reduce Jobs
+protected boolean isSplitable (jobContext context, Path path)   == Decides if the file needs to be split or not
+static void setMaxInputSplitSize(job job, long size)            == set the maximum split size
+static void setMinInputSplitSize(job job, long size)`	`		== set the minimum Input Split File
+
+============================================================================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+Binary Files containing Key Value Pairs
+Widely used in Map reduce Framework
+Mapper output is written immediately in form of sequence files
+			Uncompressed Key Value Pairs
+			Record Compressed key Value Records (only Values are compressed)
+			Block compressed key value Records (Both Key-Values are compressed)
+			
+			
+Advantages:- 
+	Compact than Text Files
+	Supports Compression , needs less storage space
+	Splittable, enjoy parallel computing of hadoop
+	Solves the small file problem of hadoop
+	
+	

@@ -1,0 +1,87 @@
+
+What exactly we want from a file:
+	Get Read Fast
+	Get Written Fast
+	Be Spilttable i.e. multiple tasks can run parallel on parts of life
+	Support schema Evoluation, allowing us to change schema of File
+	Support advanced compression through various available compression codecs (Bzip2,snappy,Lzo etc.)
+	
+	=============================================================================================================================
+	Text Files (CSV,TSF)
+	Comma Seperated Files CSV
+	Tab Seperated File  TSF
+	
+	
+	Behaviour of Text Files
+	Each line is a Record/Data , and Lines are Terminated by a new line character \n
+	Good Write performence but Slow read performence
+	Do Not Support Block compression
+	Text Files are inherently splittable on \n character
+	Limited schema evolution (New fields can only be appended to existing fields while old fileds cannot be deleted)
+	===============================================================================================================================
+	
+	================================================================================================================================
+	Sequence Files
+	
+	
+	Behaviour 
+	Each Record is stored as key value pair in Binary Format
+	Good Write and Read Performence than Text Files
+	These files store Block level compression
+	They are Splittable
+	Limited schema evolution (New fields can only be appended to existing fields while old fileds cannot be deleted) i.e. No meta deta
+	=================================================================================================================================
+	
+	=================================================================================================================================
+	AVRO Files : It is a file format plus a Serialization and Deserialzation framework. AVRO uses JSON for defining data types 
+				 and serialize data in a compact binary form.
+	
+	
+	Behaviour 
+	Neither very fast nor very slow in terms of Read and Write
+	These files supports Block level compression
+	They are Splittable
+	Was mainly designed for schema Evolution. Fields can renamed,added,deleted while old files can still be read with the new Schema
+	===================================================================================================================================
+	
+	
+	=================================================================================================================================
+	Columnar Files : Instead of Just storing rows of data adjecent to one another we also store column values adjacent to each other.
+					 so Datasetsare partitioned both horizontally and vertically
+	
+	
+	Types of Columnar File Formats:
+	
+	RC (Row Columnar) Files
+	Behavious:- 
+	These are Flat Files consisting of binary key/Value pairs and it shares much simlarity with a sequence file
+	Fast Read and Slow Write Performence
+	Provides Block compression, can be compressed with high compression ratios
+	RC Files are splittable
+	Was mainly desized for faster read so No Schema Evolution
+	
+	
+	ORC (Optimized Row Columnar) Files
+	Behavious:- 
+	These are Flat Files consisting of binary key/Value pairs and it shares much simlarity with a sequence file
+	Fast Read and Fast Write Performence
+	Provides Block compression, can be compressed with high compression ratios
+	ORC Files are splittable
+	Was mainly desized for faster read so No Schema Evolution
+	
+	
+	Parquet File : It is a columnar file format , similar to RC and ORC. It stores nested data structures into flat columanar format.
+	Behavious:- 
+	These are Flat Files consisting of binary key/Value pairs and it shares much simlarity with a sequence file
+	Fast Read and Slow Write Performence
+	Provides Block compression, can be compressed with high compression ratios supports snappy compression
+	ORC Files are cnditionally  splittable
+    Limited schema evolution (New fields can only be appended  to existing fields while old fields can never be deleted)
+	
+	
+	
+	
+	===================================================================================================================================
+	
+	
+	
