@@ -22,7 +22,7 @@ public class PersonMapper extends Mapper<LongWritable, Text, Text, Text> {
 		String line = value.toString();  //OMOI808692OZ,Allison,Abbott,21,female,Chicago
 		String[] dataLine  = line.split(",");  // {OMOI808692OZ} {Allison} {Abbott} {21} {female} {Chicago}
 		
-		context.write(new Text(dataLine[0]), new Text(line));   //  OMOI808692OZ  OMOI808692OZ,Allison,Abbott,21,female,Chicago
+		context.write(new Text(dataLine[0]), new Text("PERSON,"+line));   //  OMOI808692OZ  PERSON,OMOI808692OZ,Allison,Abbott,21,female,Chicago
 	}
 	
 	

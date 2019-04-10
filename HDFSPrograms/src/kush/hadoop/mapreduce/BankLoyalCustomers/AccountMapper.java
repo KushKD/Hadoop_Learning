@@ -23,7 +23,7 @@ public class AccountMapper extends Mapper<LongWritable, Text, Text, Text> {
 		String line = value.toString(); //	OMOI808692OZ,1245015582,savings,3667,822,no
 		String[] dataLine = line.split(",");  // 	{OMOI808692OZ} {1245015582} {savings} {3667}  {822} {no}
 		
-		context.write(new Text(dataLine[0]), new Text(line)); //OMOI808692OZ	OMOI808692OZ,1245015582,savings,3667,822,no
+		context.write(new Text(dataLine[0]), new Text("ACCOUNT,"+line)); //OMOI808692OZ	Account,OMOI808692OZ,1245015582,savings,3667,822,no
 		
 		
 		
