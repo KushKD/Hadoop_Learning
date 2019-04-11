@@ -1,0 +1,64 @@
+Apache Pig Takes a set of Instructions from the user and converts those instructions to map reduce jobs and execute the map reduce jobs in clusters.
+
+What are the challanges faced by Map  Reduce
+	Conceptually visualize a problem in Map Reduce
+	Knowledge of a Programming Language
+	Requires lot of coding to do simple stuff for e.g. Joins
+	Time and Effort 
+	
+How a tool can replace the need for a Program and Programming?
+Problem Template
+		Load
+		Filter
+		Group
+		Aggreate
+		Store
+
+History of Apache Pig!
+  Apache Pig is developed at Yahoo
+  First Release - Sep 2008
+  Pig is a Client Tool , means no installation needs to be done on all the nodes in hadoop cluster. PIG instilaation comes with a 
+  data flow language i.e. PIG LATIN  which defines the instuctions that user will use to work with the data.
+  									The Instructions will then be analized by the engine and translated to Map Reduce Jobs
+  									These Map reduce Jobs are then submitted to the Cluster
+  			As long as we have Pig installed in one of our nodes in the cluster or we have a node which have access to the cluster
+  			we are good to go.
+  			
+  PIG uses HDFS and MAP REDUCE models behind the scene
+  Smae implementation/phases as a MR Program
+  
+  
+  ===================================================
+  PIG LATIN											|
+  ===================================================
+  PIG LATIN is a simple to use Data Flow Language
+  As a user you typically write a series of instructions using PIG LATIN e.g.
+  							To Load the Data we use the LOAD Operator
+  							To Filter the Data we use the FILTER Opeartor
+  							To Group the Data we us the Group Operator
+  							Pig LATIN also comes witht the Aggregrate Functions i.e. Average, Min, Max
+  							PIG analize, optimize the instructions and construct and submit MR Jobs
+  							
+  				Philosophies while Developoing Apache Pig
+  						PIG eats Everything
+  						PIG Flies  (designed with Big Data performanc requirements in mind)
+  						PiGs are Domestic Animals (Designed to be easily controlled and modified by its users)
+  						Pigs Lives anywhere Its a language for parallel data processing 
+  						
+  						
+  Pig installation in Hadoop Clustor
+  /usr/lib/pig
+  pig
+  
+  
+In order to work with a dataset in PIG, we need to first Load a dataset
+Syntax for the load operator is very simple
+In Pig Latin a dataset is reffers to as a Relation
+grunt> stocks = LOAD '/home/hirwuser1249/stocks/stocks' USING PigStorage(',') as (exchange:chararray, symbol:chararray, date:datetime, open:float, high:float, low:float, close:float,
+volume:int, adj_close:float);
+
+
+  
+  
+  
+	
