@@ -1,0 +1,12 @@
+Tuple Bag and Map
+
+Tuple:- When ever we see a paranthesis () That means its a Tuple. 
+Bag:- Whenever we see a curley brackets {} that means it is a Bag.
+Whenever we see a square brackets [] that means it is a Bag.
+Map:- 
+
+Tuple is Nothing but a Row
+Bag is a collection of Tuples or a Collection of Rows
+Bag is more like a Table
+
+There can be a Bag inside a Tuple and Vice-Versa

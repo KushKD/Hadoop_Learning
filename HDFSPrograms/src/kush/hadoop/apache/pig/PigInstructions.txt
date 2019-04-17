@@ -1,0 +1,78 @@
+Loading the Data
+
+LOAD 'location of data set in HDFS' //ONLY HDFS LOCATION IS ACCEPTED
+USING PigStorage(',')    //PigStorage is a LOAD function  which accepts the delemeter like , Tab etc
+AS (
+exchange:chararray, //string is referred to as chararray
+sybol: chararray,   
+date: datetime,
+open:float,
+high:float,
+low:float,
+close:float,
+volume:float,
+adj_close:float
+)
+
+
+stocks = LOAD 'location of data set in HDFS' 
+				USING PigStorage(',')    //PigStorage is a LOAD function  which accepts the delemeter like , Tab etc
+				AS (
+				exchange:chararray, //string is referred to as chararray
+				sybol: chararray,   
+				date: datetime,
+				open:float,
+				high:float,
+				low:float,
+				close:float,
+				volume:float,
+				adj_close:float
+				)
+				
+stocks is  a relations
+
+See the schema of Stocks
+
+DESCRIBE stocks;
+
+Project Columns from a Relation
+
+projection = FOREACH stocks 
+			 GENERATE symbol,
+			 SUBSTRING ($0,0,1)AS sub_exchange, 
+			 close-open AS  up_or_down
+			 
+See the Results using DUMP command
+
+DUMP projection
+
+Store the Results in a file in Directory using STORE command
+STORE projection into 'output/stocks';
+
+
+
+
+			 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

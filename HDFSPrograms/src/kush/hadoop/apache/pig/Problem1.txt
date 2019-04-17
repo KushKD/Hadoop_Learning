@@ -1,0 +1,52 @@
+Learn to filter the data set Group the data set aggregation limit the number of records and ordering
+the data set.We will also see how to run the instructions as a script and we'll also see how to pass parameters into a big script.
+
+Question: List the Top 10 Stock Symbols for year 2003 with the highest average volume
+
+Load the dataset
+stocks = LOAD 'dataset/stocks' USING PigStorage(',') AS (exchange:chararray, symbol:chararray, date:datetime, open:float, high:float, low:float, close:float,volume:int, adj_close:float);
+DESCRIBE stocks
+
+Filter the Dataset (Only Records for the year 2003)
+filterByYear = FILTER stocks by GetYear(date) == 2003;
+
+Group the record by Symbol to calculate the average 
+groupBySymbol = GROUP filterByYear by symbol;
+
+Now we have to perform the aggregreation
+DESCRIBE groupBySymbol;
+
+groupBySymbol:{ group: chararray,
+					filterByYear: {(
+							exchange: chararray,
+							symbol: chararray,
+							date: datetime,
+							open: float,
+							high: float,
+							low: float,
+							close: float,
+							volume: int,
+							adj_close: float)}
+}
+
+Now Calculate the Average Salary on the Group Records
+avg_volume = FOREACH groupBySymbol GENERATE group , ROUND(AVG(filterByYear.volume)) as avgVolume;
+
+Now Order the Result in Decending Order
+avg_volume_ordered = ORDER avg_volume BY avgVolume DESC;
+
+Store Top 10 Records
+top10 = LIMIT avg_volume_ordered 10;
+STORE top10 INTO 'output' USING PisSTorage(',');
+
+To execute everything as a Script hust run this command
+pig /hdfs/url/file.pig 
+
+To execute a Pig Script with PArametes
+pig -param input=/hdfs/path.pig -param output=/hdfs/output_directory /hdfs/url/file.pig 
+
+### RUNNING A PIG SCRIPT LOCALLY. INPUT AND OUTPUT LOCATION ARE POINTING TO LOCAL FILE SYSTEM ###
+
+pig -x local -param input=/hirw-workshop/input/stocks-dataset/stocks -param output=output/stocks /hirw-workshop/pig/scripts/average-volume-parameters.pig
+
+
