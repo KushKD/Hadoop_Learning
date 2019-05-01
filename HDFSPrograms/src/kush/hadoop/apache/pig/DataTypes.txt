@@ -1,0 +1,169 @@
+There are two types of Data Types in Pig 
+
+Simple
+	int :	The int data type is a 4-byte signed integer similar to the integer in Java. It can contain 
+			values in the range of 2^31 to (2^31)–1, in other words, a minimum value of 2,147,483,648 
+			and a maximum value of 2,147,483,647 (inclusive).
+			The following shows some sample code that uses the int data type:
+			Sales = load '/data/sales' as (eid:int);
+			
+	long :  The long data type is an 8-byte signed integer that is the same with respect to size and 
+			usage as in Java. It can contain values in the range of 2^63 to (2^63)–1. A lowercase l or an 
+			uppercase L is used to represent a long data type in Java. Similarly, you can use lowercase 
+			l or uppercase L as part of constant.
+			The following is an example that uses the long data type:
+			emp = load '/data/employees' as (DOB:long);
+	
+	float : The float data type is a 4-byte floating-point number that is the same as float in Java. 
+			A lowercase f or an uppercase F is used to represent floats, for example, 34.2f or 34.2F.
+			The following is an example that uses the float data type:
+			emp = load '/data/employees' as (salary:float);
+			
+	double :    double is an 8-byte floating-point number that is the same as double in Java. Unlike float 
+				or other data, no character is required to represent the double data type.
+				The following is an example that uses the double data type:
+				emp = load '/data/employees' as (salary:double);
+				
+	boolean: 	The chararray data type is a character array in UTF-8 format. This data type is the same 
+				as string. You can use chararray when you are not sure of the type of data stored in a 
+				field. When you use an incorrect data type, Pig Latin returns a null value. It is a safe data 
+				type to use to avoid null values.
+				The following is an example that uses the chararray data type:
+				emp = load '/data/employees' as (country:chararray);
+				
+	chararray:  The boolean data type represents true or false values. This data type is case insensitive. 
+				Both True and tRuE are treated as similar in Boolean data.
+				The following is an example that uses the boolean data type.
+				emp = load '/data/employees' as (isWeekend:boolean);
+				
+	bytearray:  The bytearray data type is a default data type and stores data in BLOB format as a byte 
+				array. If you do not specify a data type, Pig Latin assigns the bytearray data type by 
+				default. Alternately, you can also specify the bytearray data type.
+				The following is an example that uses the bytearray data type:
+				emp = load '/data/employees' as (eid,ename,salary);
+				Here’s another example:
+				emp = load '/data/employees' as (eid:bytearray,ename:bytearray,salary:bytearray);
+				
+				
+	datetime:   The only date-based data type available in Pig Latin is datetime, which is used to 
+				represent the date and time. The data before T is the date, the data after the T is the time, 
+				the data after + is time zone.
+				
+	biginteger: The biginteger data type is the same as the biginteger in Java. If you have data bigger 
+				than long, then you use biginteger. The biginteger data type is particularly useful for 
+				representing credit card or debit card numbers.
+				Sales = load '/data/sales' as (cardnumber:biginteger);
+				
+	bigdecimel: The bigdecimal data type is the same as bigdecimal in Java. The bigdecimal data type is 
+				used for data bigger than double. Here’s an example: 22.2222212145218886998.
+	
+
+
+Complex
+	Map [] :    A map data type holds a set of key-value pairs. Maps are enclosed in straight brackets. The 
+				key and value are separated by the # character. The key should be the chararray data 
+				type and should be unique. While the value can hold any data type, the default is set to 
+				bytearray.
+				Here’s the syntax (the key-value pair needs to be present in a file):
+				[key1#value1,key2#value2,key3#value3,...]
+				Here’s an example:
+				[empname#Bala]
+				emp = load '/data/employees' as (M:map[]);
+				
+				Here’s another example:
+				emp = load '/data/employees' as (M:map[chararray]);
+				The second example states the value of the data type is chararray.
+				
+				If your data is not in the map data type format, you can convert the two existing fields 
+				into the map data type using the TOMAP function.
+				The following code converts the employee name and year of joining a company to 
+				the map data type:
+				emp = load  'employees' as (empname:chararray, year:int);
+				empmap = foreach emp generate TOMAP(empname, year);
+				
+	Tuple () :  A tuple is an ordered set of fields and is enclosed in parentheses. A field can hold any data 
+				type including another tuple or bag. Fields are numbered beginning from 0. If field data is 
+				not available, then its value is set to a default of null.
+				
+				For example, consider the following tuple:
+				(Bala,100,SSE)
+				This tuple has three data fields. Data in this example can be loaded using the 
+				following statement:
+				emp = load '/data/employees' as (T: tuple (empname:chararray,  dno:int, 
+				desg:charray));
+				or the following statement:
+				emp = load '/data/employees' as (T:  (empname:chararray,  dno:int, 
+				desg:charray));
+				
+				You can convert existing data fields into tuples with the TOTUPLE function. The 
+				following code converts fields with simple data types into tuples:
+				emp = load '/data/employees' as (ename:chararray,  eid:int, desg:charray);
+				emptuple=foreach emp generate TOTUPLE(ename, eid,desg);
+	
+	Bag {} : A bag is a collection of tuples and is enclosed in curly brackets. A bag can have duplicate 
+			 values. Tuples can have any number of fields. If the field value is not found, a null is 
+			 returned.
+			 
+			 Here is the syntax for the bag data type:
+				{tuple1, tuple2, tuple3,...}
+				Here’s an example:
+				{(Bala, 1972, Software Engineer)}
+				Data for this example can be loaded using the following statement:
+				emp = load '/data/employees' as (B: bag {T: tuple (ename:chararray,  
+				empid:int, desg:charray)} );
+				or the following:
+				emp = load '/data/employees' as (B: {T:  (ename:chararray,  empid:int, 
+				desg:charray)});
+				
+				There are two types of bags: outer bag and inner bag.
+				Here is an example of data with an inner bag:
+				(1,{( Bala, 1972, Software Engineer)})
+				You can convert fields with simple data types into bag data types using the TOBAG 
+				function.
+				The following lines of code convert existing fields into bag data types.
+				emp = load '/data/employees' as (ename:chararray,  empid:int, desg:charray);
+				empbag=foreach emp generate TOBAG(ename,empid,desg);
+				Dump empbag;
+				({(Bala),(1972),(Software Engineer)})
+
+
+
+Casting
+	Casting is used to convert one data type to another. Pig Latin performs two types of 
+	casting: implicit casting occurs when Pig Latin performs casting automatically, and 
+	explicit casting occurs when a user performs casting. To perform explicit casting, you 
+	specify the target data type within parentheses.
+	
+	To perform casting from int to chararray, you can use the following code:
+	empcode = foreach emp  generate (chararray) empid;
+	bytearray is the most generic data type and can be cast to any data type. Casting 
+	from bytearray to other data types occurs implicitly depending on the specified 
+	operation. To perform arithmetic operations, bytearray casting is performed to double
+	Similarly, casting from bytearray to datetime, chararray, and boolean data types occurs
+	when the user performs the respective operations. bytearray can also be cast to the 
+	complex data types of map, tuple, and bag.
+
+Operators
+		Less than <
+		Greater than >
+		Less than or equal <=
+		Greater than or equal >=
+		Equal ==
+		Not equal !=
+		Pattern matching matches
+		
+		You can use the filter keyword to perform comparison operations.
+		Here’s an example:
+		Year= filter emp by (year==1972);
+		
+Boolean Operators
+	Pig Latin includes Boolean operators such as AND, OR, NOT, and IN.
+	•	AND returns true if all conditions are true.
+	•	OR requires that at least one condition is true in order to
+	true value.
+	•	NOT inverts the value, and IN represents a list of “or” conditions
+	Boolean operators are specified in the filter statement.
+	The following code filters employees whose year of joining a company
+	or 1980:
+	empyoj = FILTER emp BY (yearOJ==1997) OR (yearOJ==1980);
+
