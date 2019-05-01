@@ -1,0 +1,296 @@
+Pig operators and commands are categorized into 
+	Reduce operators 
+	Non-Reduce operators 
+	
+Since most tasks are resource-intensive, 
+Reduce operators such as join, cogroup, and distinct launch the Reduce tasks.
+The reduce operators lets you stipulate the number of Reduce tasks that you want to run at a given time for optimal performance. 
+
+Other operators such as limit and flatten do not launch Reduce tasks.
+
+
+Load
+The load operator loads data from the source system. Its syntax is followed by two 
+operators: as and using.
+An example of load follows:
+emp = load '/data/employee' using PigStorage(',') as (eno:int,ename:chararray,salary:int,deptno:int);
+
+The as operator defines the schema, and using specifies the function that you 
+applied while reading data. By default, Pig Latin chooses PigStorage() for both the schema and the function.
+Bytearray is the default data type in the default schema. The number list starting at 0 is taken as the default field name.
+Pigstorage('\t') applies a tab as the default delimiter, but you can specify any other character as the delimiter.
+Load allows you to read from both directories and files. You can also specify the 
+absolute and relative paths of files and directories. The relative path is resolved with 
+respect to the current working directory in Local mode. The user home directory in HDFS 
+is the default consideration for the relative path in MapReduce and Tez modes. You can 
+also specify multiple paths with a comma separator. Compressed files are automatically 
+loaded using the corresponding codecs in Pig Latin. If you have .gz files as the source 
+data sets, you need not direct the codec to read the data. The load operator reads it 
+automatically.You can even use regular expressions (RegEx) in the file path of the load statement.
+
+STORE
+The following code writes data of the relation deptcount to the output directory
+data/deptcount using a comma delimiter:
+Store deptcount into '/data/deptcount' using PigStorage (',');
+
+
+dump
+The command dump displays data of a relation on the console. Write the relation name 
+after the dump operator to display relation data on the console.
+
+Dump <relationname>
+
+With dump you can test code prior to production. You can also use it to debug Pig Latin 
+scripts. Any Pig Latin code that follows the dump operator is ignored and is not executed.
+Developers can insert a dump line at any step in the Pig Latin code to view input data 
+at that particular step. All the data is displayed on the screen. So, if a relation has large 
+data, it will take so much time to display the data on the console.
+
+The following code displays five records from the employee data set on the console:
+
+Emp = load '/data/employee' using PigStorage(',') as (eno:int,ename:chararray,
+salary:int,deptno:int);
+Records5 = limit emp 5;
+Dump records5;
+
+
+version
+Use the version option to check the version of Pig you are using.
+Pig --version
+
+Foreach Generate
+Foreach is a multipurpose operator used for projection, applying functions, generating a 
+new schema, and performing nested operations. Often, it is used along with the generate 
+keyword, and it operates on one row at a time from the specified relation. Most of its 
+functionality is similar to a SQL SELECT clause. Foreach, also called the transformation 
+operator, performs transformation jobs.
+Here’s the syntax:
+relname  = FOREACH relname1 { block | nested_block };
+relname1     : Relation name to be used 
+
+Projection 
+You can choose or project some or all fields from a relation using the foreach .. 
+generate statement. The following code chooses all the fields from the emp relation:
+All = foreach emp generate *
+The asterisk represents all the fields of a relation. You may have to use the relation 
+name to access a field if you have bag, tuple, or map data types involved, as shown here:
+Empnoname= foreach emp generate emptuple.empno,emptuple.empname;
+
+
+Flatten
+Apply the FLATTEN operator using the foreach .. generate statement to change 
+structure of data from a bag to a tuple and from a tuple to a field.
+
+
+Using Functions
+The foreach .. generate statement is also used to apply a function on a field or set of 
+fields. Functions include the following:
+•	Built-in
+•	User-defined
+•	Single-row functions such as UPPER
+•	Multirow functions such as COUNT, which must be applied after 
+the GROUP operator
+The following foreach statement converts all employee names into uppercase:
+Enameucase = foreach emp generate UPPER(ename);
+
+You can define a new schema on the output of the foreach .. generate statement.
+The following code increases the salary by 10 percent and changes its data type:
+emp = load 'employee.csv' using PigStorage(',') as (eno:int,ename:chararray,salary:int,dno:int);
+describe emp;
+emp: {eno: int,ename: chararray,salary: int,dno: int}
+Newsal = foreach emp generate eno,ename,salary*1.1,deptno as  
+(eno :int,ename:chararray,salary:doouble,deptno:int)
+Describe Newsalary;
+newsal: {eno: int,ename: chararray,newsal: double,dno: int}
+
+Nested Block
+Nested blocks process inner bags. Multiple operations can be performed within nested 
+blocks. Nested blocks are enclosed in opening ({) and closing brackets (}). The last 
+statement should always be generate. Macros cannot be used in nested blocks.
+The following code displays the employee name and department name by retrieving 
+them from different inner bags after the cogroup operator:
+emp = load 'employee.csv' using PigStorage(',') as (eno:int,ename:chararray,salary:int,dno:int);
+dept = load 'dept.csv'using PigStorage(',') as (dno:int,dname:chararray);
+cogrp = cogroup emp by dno,dept by dno;
+describe cogrp;
+Here is a sample of the cogrp schema:
+cogrp: {group: int,emp: {(eno: int,ename: chararray,salary: int,dno: int)}, 
+dept: {(dno: int,dname: chararray)}}
+You can process inner bags using nested blocks, as shown here:
+enamedname = foreach cogrp{
+ generate flatten(emp.ename),flatten(dept.dname);
+}
+
+
+filter
+filter retrieves data based on specified conditions. filter checks one row after another 
+for the specified conditions.
+It is best practice to filter data as early as possible in the project so that you will get an 
+early opportunity work on less data.
+
+Boolean Operators
+You can apply AND, OR, and NOT Boolean operators in a filter statement.
+The following code retrieves employee records whose deptno is greater than or equal 
+to 100 and less than or equal to 300:
+somedept=filter emp by deptno>=100 and deptno<=300;
+
+
+Comparison Operators
+You can apply the comparison operator using the filter statement.
+The following code retrieves all employee records whose deptno is 300:
+dept300=filter emp by deptno==300;
+
+
+
+Limit
+limit retrieves a specific number of tuples from a relation. limit is followed by the relation name and number.
+Limit relationname number
+The following code retrieves only five tuples from the relation emp. If five tuples are not available, 
+it returns only the available number of tuples, and if more than five tuples 
+are available, only five tuples are retrieved. Tuples are returned randomly, and the same 
+tuples may not be retrieved when you rerun the code until and unless you apply the  order by operator, before the limit operator.
+The following code is a limit example:
+Limit5 = limit emp 5;
+This operator is useful to check data in a relation in the initial stage of writing Pig 
+Latin code.
+
+Assert
+Assert verifies a specified condition on a relation. If a condition is not true, it throws the 
+appropriate error message.
+Here’s the syntax:
+ASSERT relname BY condition [, errormessage];
+e.g.
+Emp = load '/data/employee' using PigStorage() as (eno:int,ename:chararray, 
+salary:int,deptno:int);
+Assert emp by deptno is not null,'deptno should not be null';
+Dump emp;
+
+distinct
+The distinct operator removes duplicate tuples from a relation. Its functionality is the 
+same as a SQL distinct clause. The SQL while distinct can be applied on a field; the 
+Pig Latin can be applied only on a relation.
+For better results, you need to apply order by before the distinct operator.
+Here’s the syntax:
+Distinct relname [PARTITION by partitionercalss] [PARALLEL num]
+The following code removes duplicate records from the emp relation:
+Emp = load '/data/employee' using PigStorage(',') as (eno:int,ename:chararray, 
+salary:int,deptno:int);
+uniqemp = distinct emp;
+dump uniqemp;
+
+Choosing the Number of Reduce Tasks
+The distinct operator launches the Reduce task. You can specify the number of reducers 
+after the PARALLEL keyword.
+The following code launches ten Reduce tasks to remove duplicate employee tuples:
+uniqemp = distinct emp PARALLEL 10;
+
+
+
+Union
+The union operator is used to merge two or more relations.
+Emp1= load '/data/employee' using PigStorage salary:int,dno:int);;
+Dump emp1;
+
+(200,Radha,200000,300)
+(400,Nirupam,1600000,200)
+
+Emp2 = load '/data/newemployee' using PigStorage
+salary:int,dno:int);
+Dump emp2;
+(400,Nirupam,1600000,200)
+(100,Bala,100000,200)
+(300,Nitya,150000,)
+
+
+Empuni = union emp1,emp2;
+Dump empuni;
+(200,Radha,200000,300)
+(400,Nirupam,1600000,200)
+(100,Bala,100000,200)
+(400,Nirupam,1600000,200)
+(300,Nitya,150000,)
+
+
+ORDER BY
+The Order By operator works the same way as the SQL ORDER BY. It sorts relation data 
+using the mentioned fields. The order can be ascending or descending.
+
+GROUP
+emp = load 'employee.csv' using PigStorage(',') as (eno:int,ename:chararray,salary:int,dno:int);:
+deptgrp = GROUP emp By dno;
+describe deptgrp;
+deptgrp: {group: int,emp: {(eno: int,ename: chararray,salary: int,dno: int)}}
+ALL allows you to perform aggregate operations on an entire relation. For example, 
+you can get the total count of tuples in a relation and the total sum of a field in an entire 
+relation using it. The following code computes the total number of employees in the 
+relation emp:
+Grpall = GROUP emp ALL;
+Empcount = foreach grpall generate group,count(emp.eno);
+Dump empcount;
+(all,10000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
