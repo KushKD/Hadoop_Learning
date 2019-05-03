@@ -1,0 +1,47 @@
+Do a join between stocks and dividends when symbols don't match in either file?
+
+Joins with non equality condition is very difficult to implement in Map Reduce. Hence there in no direct PIG LAtin Instruction
+to Do that.
+
+We do the Cross Join and then we apply the filter
+
+###CROSS###
+
+--Takes every record in stocks and combines it with every record in divs
+grunt> crs = CROSS stocks, divs;
+
+--What about non equi joins?
+
+grunt> non_equi = FILTER crs by stocks::symbol != divs::symbol;
+
+grunt> limit1000 = LIMIT non_equi 1000; 
+
+
+Question) Can we Do Join In Pigs with more than two tables?
+Answer: Yes we can do. But Only Inner joins can be implemented with multiple Tables. We cannot mix inner and Outer Joins with 
+more than two tables. Its also called Multiway Joins
+
+Also, The Join key has to be same in all the tables.
+
+
+### Multiway Join ###
+
+grunt> join_multi = JOIN stocks by (symbol, date), divs by (symbol, date), cmp by symbol;
+##This is not a valid multiway join statement becauee of cmp by symbol;
+--Multiway join is only possible on inner joins and not on outer joins
+grunt> join_multi = JOIN stocks by symbol, divs by symbol, cmp by symbol;
+##This is a valid Multijoin statement
+
+grunt> DUMP join_multi;
+
+Question: How to use a Join without using a JOIN Operator?
+Answer: Using a COGROUP
+
+###COGROUP###
+grunt> cgrp = COGROUP stocks BY (symbol, date), divs by (symbol, date);
+
+cgrp: {
+	group: (symbol: chararray,date: chararray),
+	stocks: {(exchange: chararray,symbol: chararray,date: chararray,open: float,high: float,low: float,close: float,volume: int,adj_close: float)},
+	divs: {(exchange: bytearray,symbol: bytearray,date: bytearray,dividends: bytearray)}
+	}

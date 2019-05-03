@@ -1,0 +1,83 @@
+Joins  With Equality Conditions
+
+When We have more than one Dataset, it is natural to join them and project resut in a meaningful way.
+
+Inner Join, Left Outer Full Outer Join 
+
+We have two Datasets 
+Stocks and Divident
+
+Lets dee the Dividends Dataset
+
+ABCSE,B7J,2009-11-12,0.15
+
+ABCSE Exchange
+B7J  Symbol
+2009-11-12  Date when the Dividend is Issued
+0.15   Amount of Dividend Issued
+
+First Load Stocks and Divident Dataset
+
+stocks = LOAD 'dataset/stocks' Using PigStorage(',') AS ();
+divs = LOAD 'dataset/dividend'  Using PigStorage (',') AS (exchange:chararray, symbol:chararray,date:datetime,amount:float);
+
+Question We want to get all the stock information for the day when the divident was Issued?
+Its a classic inner join
+
+innerJoin = JOIN stocks BY (symbol, date) , divs BY (symbol, date);	
+DESCRIBE innerJoin;
+
+innerJoin: {
+	stocks::exchange: chararray,
+	stocks::symbol: chararray,
+	stocks::date: datetime,
+	stocks::open: float,
+	stocks::high: float,
+	stocks::low: float,
+	stocks::close: float,
+	stocks::volume: int,
+	stocks::adj_close: float,
+	divs::exchange: chararray,
+	divs::symbol: chararray,
+	divs::date: datetime,
+	divs::dividends: float
+	}
+
+join_project  = FOREACH join_inner GENERATE stocks::symbol, divs::date, divs::dividends;
+DUMP join_project;
+	
+	
+	
+Left Outer Join Operation
+A Left Join brings all the data from the Lest side of Dataset with the matching record on the right hand side of the data set if the
+values are matched. If no values are mached null values are substituted from the right hand side .
+
+leftJoin = JOIN stocks BY (symbol,date) LEFT OUTER , divs BY (symbol,date);
+DESCRIBE leftJoin;
+DUMP leftJoin;
+
+Limit the records to 100
+Limit100 = LIMIT leftJoin 100;
+DUMP Limit100;
+
+## Filter out records with no matching Dividends or no Dividend
+filterLeftJoin = FILTER leftJoin BY divs::symbol IS NOT NULL;
+DUMP filterLeftJoin;
+
+RIGHT OUTER JOIN OPERATION
+joinRight = JOIN stocks BY (symbol,date) RIGHT OUTER , divs BY (symbol,date);
+DUMP joinRight;
+Right Outer joins brings all the records from the Right side and all the matching columns from Left side.
+
+FULL OUTER JOINs
+Full outer joins is a combination of Left Outer Joins and Right Outer Joins. When there is a match all the columns from the Left and Right
+are given and when there is no match null is substituted.
+joinRight = JOIN stocks BY (symbol,date)  FULL , divs BY (symbol,date);
+DUMP joinRight;
+
+
+
+
+
+	
+	
