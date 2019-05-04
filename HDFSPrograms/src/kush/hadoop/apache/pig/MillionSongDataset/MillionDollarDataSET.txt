@@ -1,0 +1,33 @@
+Million Dollar Dataset
+
+https://labrosa.ee.columbia.edu/millionsong/
+
+HDF5
+HDF = Hierarchical Data Format (HDF) is a set of file formats (HDF4, HDF5) designed to store and organize large amounts of data. 
+	  Originally developed at the National Center for Supercomputing Applications, it is supported by The HDF Group, 
+	  a non-profit corporation whose mission is to ensure continued development of HDF5 technologies and the continued 
+	  accessibility of data stored in HDF.
+	  
+	  
+The Million Song Dataset is a freely-available collection of audio features and metadata for a million contemporary popular music tracks. 
+The Million Song Dataset started as a collaborative project between The Echo Nest and LabROSA.
+
+The entire dataset is 280 GB and you can also download a subset (10,000 songs) which is 1.8 GB in size. 
+Follow this link ( https://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset ) to get the dataset.
+
+There are several experiments you can try with the dataset. Couple of examples –
+Calculate song density for each song and list the top 10 high density songs.
+List the top 10 hottest songs closer to where you live using the artists latitude and longitude.
+
+
+Working with the dataset
+There are 2 issues with the dataset.
+1. Size – even the subset (10,000 songs) dataset is 1.8 GB what if we want to get 200 MB dataset or a dataset even smaller.
+2. Format – The files in the dataset are in HDF5 format. We need to convert the files to tab delimited (or any delimiter) text files to work with Hadoop.
+
+Solving Size and Format issue at once
+							We will write a small program using HDF5 libraries to covert the .h5 files to .txt files and while doing 
+							that extract all fields to tab delimited (or delimiter of your choice) format.
+							
+https://github.com/tbertinmahieux/MSongsDB/blob/master/JavaSrc/hdf5_getters.java //JAVA CODE
+https://datafu.apache.org/

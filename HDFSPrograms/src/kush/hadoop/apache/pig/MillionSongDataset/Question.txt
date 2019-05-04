@@ -1,0 +1,63 @@
+Find Out Less Fimiliar Artists who have great songs
+Which artist from this list of Unfimiliar Artist is Remote meaning who is far away in distance compared to other less fimiliar artists
+
+
+
+
+Artist Fimiliarity      LAtitude         Longitude     Artist Name              SongHotness             SongName
+0.5820347959534041      39.75911        -84.19444       Mouth Of The Architect  0.6909709542805956      Harboring An Apparition
+
+Artist Name
+Artist Fimilarity
+Artist Latitude 
+Artist Longitude
+
+Artist who are less femiliar and have very good Songs
+We will use the song hardness to determine weather the songs are good or not
+
+
+
+
+########################## PIG SCRIPT #####################################################
+
+#LOAD the Dataset
+artistData = LOAD 'dataset/songs_data' USING PigStorage('\t') AS (artist_familiarity:double, artist_latitude:double, artist_longitude:double, artist_name:chararray, artist_songhotness:double, artist_songname:chararray);
+DESCRIBE artistData;
+
+
+artistDataKey = FOREACH artistData GENERATE  artist_name , artist_familiarity, artist_songhotness;
+DESCRIBE artistDataKey;
+DUMP artistDataKey;
+
+#FILTER the Dataset where Artist Fimiliarity is NULL
+artistData_FilterArtistFimiliarity =  FILTER artistDataKey BY artist_songhotness is not null AND artist_familiarity < 0.5;
+DUMP artistData_FilterArtistFimiliarity;
+
+#Filter artistData_FilterArtistFimiliarity by Song Hotness 
+artistData_FilterArtistFimiliaritySongHotness =  FILTER artistData_FilterArtistFimiliarity BY artist_songhotness  < 0.5;
+DUMP artistData_FilterArtistFimiliaritySongHotness;
+
+finalData = ORDER artistData_FilterArtistFimiliaritySongHotness BY artist_songhotness DESC ;
+
+STORE finalData INTO 'output/pig/simple-projection';
+
+//Solutiom MAin
+
+artistData = LOAD 'dataset/songs_data' USING PigStorage('\t') AS (artist_familiarity:double, artist_latitude:double, artist_longitude:double, artist_name:chararray, artist_songhotness:double, artist_songname:chararray);
+less_popular = FILTER artistData BY (artist_familiarity IS NOT NULL and artist_familiarity < 0.5) AND (artist_songhotness IS NOT NULL and artist_songhotness > 0.5) AND (artist_latitude IS NOT NULL) AND (artist_longitude IS NOT NULL);
+grp_less_popular = GROUP less_popular BY (artist_familiarity, artist_latitude, artist_longitude, artist_name);
+avg_song_hotness = FOREACH grp_less_popular GENERATE group.artist_familiarity, group.artist_latitude, group.artist_longitude, group.artist_name, AVG(less_popular.artist_songhotness) AS avgsong_hotness;
+only_hot_song_artists = FILTER avg_song_hotness BY avgsong_hotness > 0.5;
+part1 = FOREACH only_hot_song_artists GENERATE CONCAT('[', (chararray) artist_latitude), artist_longitude, CONCAT('"', CONCAT((chararray) artist_name, '"')),artist_familiarity, CONCAT((chararray)avgsong_hotness, '],');
+
+// ([51.50632,-0.12714,"Cass Fox",0.49637812033617396,0.5183405378823447],)
+STORE part1 INTO 'output/songs/part1' using PigStorage(',');
+
+
+
+
+
+https://datafu.apache.org/
+
+
+
