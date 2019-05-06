@@ -1,0 +1,14 @@
+https://en.wikipedia.org/wiki/Special:Export
+
+Double square brackets [[ ]] indicates a URL in XML
+
+Tast 1 : How to Load the dataset in Pig
+Task 2: How can we extract just the Information we need from the Dataset.
+		i.e tha Page and the URL refrences from each Page.
+		
+ We exactly needs the Page name and the List of URLs from that Page
+ 
+ We cannot use the standard Load Instruction to Load the XML file as PIG only processes a line of text with a column delemeter .
+ We here need to create a custom Page Load function. Let we call the function PageRankLoad() function
+ 
+ We need to create XML Record Reader and XML Input format to read the XML file 

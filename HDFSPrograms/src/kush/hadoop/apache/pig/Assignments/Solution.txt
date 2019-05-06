@@ -1,0 +1,33 @@
+dataset/employee_pig/employee_chicago
+dataset/employee_pig/department_chicago
+dataset/employee_pig/employeeBonus_chicago
+
+# Employee Chicago
+1458,AARON ELVIA J,WATER RATE TAKER,328,73752
+employeeId,employeeName,employeeDesignation,employeeDepartment,employeeSalary
+employee = LOAD 'dataset/employee_pig/employee_chicago' USING PIGSTORAGE(',') AS(employeeId:int,employeeName:chararray,employeeDesignation:chararray,employeeDepartment:int,employeeSalary:float);
+DESCRIBE employee;
+DUMP employee;
+
+#DEPARTMENT CHICAGO
+328;ADMIN HEARNG;[street#939 W El Camino,city#Chicago,state#IL]
+departmentId,departmentName, departmentAddress
+departments = LOAD 'dataset/employee_pig/department_chicago' USING PIGSTORAGE(';') AS(departmentId:int,departmentName:chararray, departmentAddress:map[]);
+DESCRIBE departments;
+DUMP departments;
+
+
+#Bonus Employee Chicago
+1462,4500
+employeeId,bonus
+bonus = LOAD 'dataset/employee_pig/employeeBonus_chicago' USING PIGSTORAGE (',') AS(employeeId:int,bonus:float);
+DESCRIBE bonus;
+DUMP bonus;
+
+Question: Join employee and department dataset to display Department Name and Department Address (as 3 separate columns – street, city and state) for each row in employee.
+innerJoin_employeeDepartment =  JOIN employee BY  (employeeDepartment) , departments BY (departmentId);
+DESCRIBE innerJoin_employeeDepartment;
+
+## TODO change the GENERATE STATEMENT
+innerJoin_employeeDepartment_result  = FOREACH innerJoin_employeeDepartment GENERATE stocks::symbol, divs::date, divs::dividends;
+DUMP innerJoin_employeeDepartment_result;

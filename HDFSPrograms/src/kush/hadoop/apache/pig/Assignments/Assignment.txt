@@ -1,0 +1,144 @@
+Apache Pig Assignment
+Section 5, Lecture 32
+
+City of Chicago Employee Dataset
+
+Input (HDFS)- /user/hirw/input/employee-pig/employee_dataset_chicago
+
+Column Delimiter – Comma (,)
+
+Position
+
+Column Value
+
+Data Type
+
+1
+
+Employee Id
+
+INT
+
+2
+
+Employee Name
+
+(First Name <space> Last Name)
+
+CHARARRAY
+
+3
+
+Position Title
+
+CHARARRAY
+
+4
+
+Department Id
+
+INT
+
+5
+
+Employee Annual Salary
+
+FLOAT
+
+Sample Record
+
+1512,ACCURSO MARY K,ASST ADMINISTRATIVE SECRETARY I,43,21548.8
+
+
+City of Chicago Department Dataset
+
+Input (HDFS) - /user/hirw/input/employee-pig/department_dataset_chicago
+
+Column Delimiter – Semicolon (;)
+
+Position
+
+Column Value
+
+Data Type
+
+1
+
+Department Id
+
+INT
+
+2
+
+Department Name
+
+CHARARRAY
+
+3
+
+Address
+
+MAP[]
+
+3 keys – street, city, state
+
+Sample Record
+
+56;BOARD OF ETHICS;[street#226 S Wabash Ave,city#Chicago,state#IL]
+
+City of Chicago Bonus Dataset
+
+Input Location - /user/hirw /input/employee-pig/employee_bonus_chicago
+
+Column Delimiter – Comma (,)
+
+Position
+
+Column Value
+
+Data Type
+
+1
+
+Employee Id
+
+INT
+
+2
+
+Bonus
+
+FLOAT
+
+Sample Record
+
+2281,25000.50
+
+Create a relation with employee dataset with schema (column names and datatype) and name it employee. Once created, describe the relation.
+Select the columns from the employee relation
+Create a relation with department dataset with schema (column names and datatype) and name it departments. Once created, describe the relation.
+Select the columns from the department relation
+Create a relation with bonus dataset with schema (column names and datatype) and name it bonus. Once created, describe the relation.
+Select the columns from the bonus relation
+Join employee and department dataset to display Department Name and Department Address (as 3 separate columns – street, city and state) for each row in employee.
+Display all the employees who received bonus. The result should not display any employees who did not receive a bonus.
+Display the average bonus by department.
+Display the number of employees in each department using a nested FOREACH.
+Word count problem in PIG
+Input
+
+Hello World
+
+Welcome Back
+
+Hello
+
+Output
+
+Back 1
+
+Hello 2
+
+Welcome 1
+
+World 1
