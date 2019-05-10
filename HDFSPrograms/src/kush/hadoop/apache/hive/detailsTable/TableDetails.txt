@@ -1,0 +1,43 @@
+hive> SHOW DATABASES;
+
+hive> USE stocks_db;
+
+hive> CREATE TABLE IF NOT EXISTS stocks (
+exch string,
+symbol string,
+ymd string,
+price_open float,
+price_high float,
+price_low float,
+price_close float,
+volume int,
+price_adj_close float)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+
+hive> DESCRIBE FORMATTED stocks;
+
+#First we'll se the columns and its datatypes
+#Second we'll see the database the table belongs to
+#Third we'll see the Location and table type
+#Location:- The location attribute specifies the location in the HDFS.
+#There are two types of table in HIVe
+		Managed Table
+		External Table
+		
+When we dont specify the the table format white creating the table, HIVE will create the table in default TextInputformat .
+SerDe 
+How Serde is different from an Input and Output format?
+SerDe stand for Serializer and Deserializer. When we read the data Deserializer from SerDe is involved.And when we read the data Serializer
+from SerDe is involved.SerDe is a Java Class. When we don't specify a SerDe class the default SerDe is LazySimpleSerDe.
+
+Meta Data of the Table actually resides in the Database like mysql,PostGresSql etc. The properties of the table can be set in the 
+HIVESite.xml which is placed in etc/hive/conf and then vi hive-site.xml
+
+
+hive> DROP DATABASE stocks_db;
+
+hive> DROP TABLE stocks;
+
+hive> DROP DATABASE stocks_db CASCADE;
+
+

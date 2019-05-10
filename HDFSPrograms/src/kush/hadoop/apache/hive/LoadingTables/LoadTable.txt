@@ -1,0 +1,18 @@
+Loading Hive Tables:
+ LOAD command
+ CTAS (CREATE TABLE AS SELECT)
+ INSERT...SELECT
+ LOCATION
+ 
+Execute HDFS commands from HIVE Shell directory using !
+hive> !hadoop fs -ls 
+The above command runs HDFS commandd in HIVE SHELL
+
+hive> LOAD DATA INPATH 'input/hive/stocks_db' INTO TABLE stocks;
+The LOAD command moves the dataset from the HDFS to the Table LOCATION in HDFS .Note it does not copy the dataset , it moves the dataset.
+
+ CTAS (CREATE TABLE AS SELECT):- Basically we will be copying the stocks table into another table.
+ 								 We are creating a table using select.That is why it is called CTAS.
+ 								 
+ 								 Copy the contents of stocks not move to stocks_cts table.
+ 

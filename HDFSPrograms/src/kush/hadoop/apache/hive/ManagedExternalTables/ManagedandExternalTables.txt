@@ -1,0 +1,12 @@
+Table Types: 
+
+
+Managed Table: Managed Table has full control over its data. i.e. when we drop the table, all the dataset, filess will be deleted.
+External Table: External Table does not have  full control over its data. i.e. 
+				when we drop the table, the Dataset is not deleted from HDFS.
+				
+When to Use managed and External Table?
+When the data set is only used by HIVe then we used Managed Table. 
+Whent the data set is to be used by other applications like Pig, Explicit Mapreduce then we use External Table.
+
+By Default when we create a Table it is called a managed table.

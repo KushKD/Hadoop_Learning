@@ -1,0 +1,5 @@
+ORDER BY uses only 1 reducer , if we specify the number of reducer explicitly then also 1 reducer
+SORT BY uses the number of reducers that we specify explicitly.
+
+ORDER BY does global ordering and will only use 1 reducer.
+
