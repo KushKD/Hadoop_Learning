@@ -1,0 +1,99 @@
+# creating a Databas 
+create database kush;
+
+#create database with if not exists command
+create database if not exists kush;
+
+#Describe database kush
+describe database kush;
+
+#Creating a Database using commnets
+create database if not exists kush2 comment 'This is the first Hive database';
+
+#Describe database kush after adding commments
+describe database extended kush2;
+
+#Creating a Database using Database Properties
+create database if not exists kush3 with dbproperties('creator'='myname','date'='2019-05-11') comment 'This is the first Hive database';
+describe database extended kush3;
+
+#List of all the Databases
+show databases;
+
+#using a database
+use kush3;
+
+#creating a table in hive
+499,Poole:GBR,England,141000
+501,Blackburn:GBR,England,140000
+500,Bolton:GBR,England,139020
+502,Newport:GBR,Wales,139000
+503,PrestON:GBR,England,135000
+504,Stockport:GBR,England,132813
+
+create table if not exists  table1 (
+col1 string,
+col2 array<string>,
+col3 string,
+col4 int
+)
+row format delimited fields terminated by ','
+collection items terminated by ':'
+lines terminated by '\t'
+stored as textfile;
+
+create external table if not exists  table1 (
+col1 string,
+col2 array<string>,
+col3 string,
+col4 int
+)
+row format delimited fields terminated by ','
+collection items terminated by ':'
+lines terminated by '\t'
+stored as textfile;
+
+By default Hive will store the data in this path variable
+set hive.metastore.warehouse.dir;
+hive.metastore.warehouse.dir=/user/hive/warehouse
+
+If want to use explicit location
+create  table if not exists  table1 (
+col1 string,
+col2 array<string>,
+col3 string,
+col4 int
+)
+row format delimited fields terminated by ','
+collection items terminated by ':'
+lines terminated by '\t'
+stored as textfile
+location '/hdfsLocation/tablesData';
+
+load data local inpath '/localpath/dataset.txt' into table table1;
+into is used to append the data 
+we can also use override
+override is use to clear the data in table1 and then load the data in table1.
+load data  inpath '/hdfspath/dataset.txt' into table table1;
+
+#check weather the file is loaded or not
+select * from table1 ;
+
+#Getting the details of the table
+describe formatted table1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
