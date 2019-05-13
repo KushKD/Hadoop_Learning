@@ -1,0 +1,20 @@
+Alter table is used to change the schema of the table like column type, column name, add a column or remove a column etc.
+
+#Add new column
+ALTER TABLE table_name ADD COLUMNS (col4 string, col5 int);
+
+#Adding a column after specific column
+ALTER TABLE table_name change col1 col2 int after col3;
+
+col1 is old name
+col2 is new name 
+we can keep the same name too.
+
+#To change the colum names
+ALTER TABLE table_name change column col1 col11 string;
+
+#Rename the Table itself
+ALTER TABLE table_name rename to table_name_new;
+ 
+ #Replace Colums
+ ALTER TABLE table_name replace columns (id int, name string);

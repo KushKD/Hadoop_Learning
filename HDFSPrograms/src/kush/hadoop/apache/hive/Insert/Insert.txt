@@ -1,0 +1,75 @@
+How to Load a Data From a Table and Into a Table
+
+To Load the data into the table we will use LOAD DATA command
+sample Data Source Table
+1281,Shawn,Architect,7890,1481,10,IXZ
+hadoop fs -copyFromLocal /home/hirwuser1249/hive/employee.txt dataset
+
+set hive.cli.print.header =true // to see the header of the table
+create table if not exists employee (
+col1 int,
+col2 string,
+col3 string,
+col4 int,
+col5 int,
+col6 string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS textfile;
+LOAD DATA INPATH 'dataset/employee.txt' INTO TABLE employee;
+DESCRIBE FORMATTED employee;
+SELECT * FROM employee LIMIT 100;
+
+It is not mandatory that source table schema and target table schema is mandatory. We can load any no of columns in the new table.
+
+Destination Table
+
+create table if not exists tab (
+col1 int,
+col2 string
+col3 string
+)
+STORED AS textfile; 
+
+Now Destination table is created . now to store the data from source to destination table we will be using INSERT command
+INSERT INTO TABLE tab SELECT col1,col2,col3 FROM employee ;
+INSERT OVERWRITE TABLE tab SELECT col1,col2,col3 FROM employee ;
+
+IT is also possible to load data from source table to multiple tables.
+
+#Multiinsert in a single command.
+FROM employee insert into tab select col1,col2,col3 where col3='Developer' insert into thirdTable select col1,col2,col3 where col3='Manager' 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+#cust_id,  #cust_name, #odr_date,#shipdt,#Courer,#recvd_dt,#returned or not,#returned dt,#reson of return
+
+create database if not exists assignment1 comment 'This is just the assignment' with dbproperties('creator'='kush', 'date'='2019-05-13') ;
+describe database extended assignment1;
+use database assignment1;
+
+create table if not exists customer(
+cust_id string,
+cust_name string,
+ord_date DATE,
+ship_date DATE,
+courer string,
+recvd_date DATE,
+return_orNot string,
+returnedDate DATE,
+reason string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS textfile;
+
+LOAD DATA INPATH 'dataset/AssignmentDataSet.txt' INTO TABLE customer;
+
+SELECT * FROM customer LIMIT 100;
+
+hadoop fs -copyFromLocal /home/hirwuser1249/hive/AssignmentDataSet.txt  dataset
