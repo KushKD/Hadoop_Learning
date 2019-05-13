@@ -1,4 +1,5 @@
-Apache Pig Takes a set of Instructions from the user and converts those instructions to map reduce jobs and execute the map reduce jobs in clusters.
+Apache Pig Takes a set of Instructions from the user and converts those instructions to map reduce jobs and execute 
+the map reduce jobs in clusters.
 
 What are the challanges faced by Map  Reduce
 	Conceptually visualize a problem in Map Reduce

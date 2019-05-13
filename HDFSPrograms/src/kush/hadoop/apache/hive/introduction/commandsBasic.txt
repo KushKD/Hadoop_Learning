@@ -11,7 +11,7 @@ describe database kush;
 create database if not exists kush2 comment 'This is the first Hive database';
 
 #Describe database kush after adding commments
-describe database extended kush2;
+describe database kush2;
 
 #Creating a Database using Database Properties
 create database if not exists kush3 with dbproperties('creator'='myname','date'='2019-05-11') comment 'This is the first Hive database';

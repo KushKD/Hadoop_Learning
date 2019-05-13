@@ -2,11 +2,20 @@ Table Types:
 
 
 Managed Table: Managed Table has full control over its data. i.e. when we drop the table, all the dataset, filess will be deleted.
+
 External Table: External Table does not have  full control over its data. i.e. 
-				when we drop the table, the Dataset is not deleted from HDFS.
+				when we drop the table, the Dataset is not deleted from HDFS. only the Metadata of the table is deleted.
 				
 When to Use managed and External Table?
 When the data set is only used by HIVe then we used Managed Table. 
 Whent the data set is to be used by other applications like Pig, Explicit Mapreduce then we use External Table.
 
 By Default when we create a Table it is called a managed table.
+
+Managed Table : Controlled are Hive.
+				All the Data and Meta Data is controlled by Hive
+				Only way to excess the Table is through Hive
+				Hive does not allow any other directory to access the data
+				Both the Matadata and Data is lost in Internal Table as both are controlled by Hive on droping a table
+				By Default if a table is not mentioned as EXTERNAL it is considered as  Internal Table
+				

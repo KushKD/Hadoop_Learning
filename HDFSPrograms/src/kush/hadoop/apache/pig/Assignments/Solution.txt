@@ -5,14 +5,14 @@ dataset/employee_pig/employeeBonus_chicago
 # Employee Chicago
 1458,AARON ELVIA J,WATER RATE TAKER,328,73752
 employeeId,employeeName,employeeDesignation,employeeDepartment,employeeSalary
-employee = LOAD 'dataset/employee_pig/employee_chicago' USING PIGSTORAGE(',') AS(employeeId:int,employeeName:chararray,employeeDesignation:chararray,employeeDepartment:int,employeeSalary:float);
+employee = LOAD 'dataset/employee_pig/employee_chicago' USING PigStorage(',') AS(employeeId:int,employeeName:chararray,employeeDesignation:chararray,employeeDepartment:int,employeeSalary:float);
 DESCRIBE employee;
 DUMP employee;
 
 #DEPARTMENT CHICAGO
 328;ADMIN HEARNG;[street#939 W El Camino,city#Chicago,state#IL]
 departmentId,departmentName, departmentAddress
-departments = LOAD 'dataset/employee_pig/department_chicago' USING PIGSTORAGE(';') AS(departmentId:int,departmentName:chararray, departmentAddress:map[]);
+departments = LOAD 'dataset/employee_pig/department_chicago' USING PigStorage(';') AS(departmentId:int,departmentName:chararray, departmentAddress:map[]);
 DESCRIBE departments;
 DUMP departments;
 
@@ -20,7 +20,7 @@ DUMP departments;
 #Bonus Employee Chicago
 1462,4500
 employeeId,bonus
-bonus = LOAD 'dataset/employee_pig/employeeBonus_chicago' USING PIGSTORAGE (',') AS(employeeId:int,bonus:float);
+bonus = LOAD 'dataset/employee_pig/employeeBonus_chicago' USING PigStorage (',') AS(employeeId:int,bonus:float);
 DESCRIBE bonus;
 DUMP bonus;
 
@@ -29,5 +29,19 @@ innerJoin_employeeDepartment =  JOIN employee BY  (employeeDepartment) , departm
 DESCRIBE innerJoin_employeeDepartment;
 
 ## TODO change the GENERATE STATEMENT
-innerJoin_employeeDepartment_result  = FOREACH innerJoin_employeeDepartment GENERATE stocks::symbol, divs::date, divs::dividends;
+innerJoin_employeeDepartment_result  = FOREACH innerJoin_employeeDepartment GENERATE employee::employeeName, departments::departmentId, departments::departmentName, departments::departmentAddress#'street' as street, departments::departmentAddress#'city' as city, departments::departmentAddress#'state' as state; 
 DUMP innerJoin_employeeDepartment_result;
+
+## Employee Who has received bonus
+innerjoin_bonusEmployee = JOIN employee BY  (employeeId) , bonus BY (employeeId);
+innerjoin_bounusResult = FOREACH innerjoin_bonusEmployee GENERATE employee::employeeName, employee::employeeDesignation, employee::employeeId ,bonus::bonus;
+DUMP innerjoin_bounusResult;
+
+
+
+
+
+
+
+
+
