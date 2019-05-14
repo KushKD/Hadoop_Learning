@@ -1,0 +1,15 @@
+Salman Rushide,Grimus:Shame:Fury
+Thomas Otway,Don Carlos:The Orphan
+Ben Jonson,Volpone:Epicene
+John Milton,Arcades:Comus
+
+
+EXPLODE()  takes in an array as input and output the elements of array as seperate rows
+select explode(col2) as myCol from table1;
+
+lateral view : Latereral view was interdused so as to select other columns of table along with the exploded columns.
+select col1, explode(col2) as myCol from table1;  it gives an error
+select author_name, dummy_booksnmae from table2 lateral view explode(books_name) dummy as dummy_booksname
+
+Other use of lateral view is , it is used to get the key and value of the map datatype
+select key,value from table3 lateral view explode(col1) dummy as key,value;

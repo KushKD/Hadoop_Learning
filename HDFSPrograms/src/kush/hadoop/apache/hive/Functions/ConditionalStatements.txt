@@ -1,0 +1,31 @@
+# conditional if
+if col3=England then select col1 else col 4
+select if(col3='England',col1,col4) ffrom table1;
+
+#CASE 
+	CASE fruit
+	     WHEN fruit='Apple' THEN 'Owner is Apple'
+	     WHEN fruit='Orange' THEN 'Owner is Orange'
+	     ELSE 'Other FRUIT'
+	END    
+	
+	or it can be written as 
+	
+	CASE WHEN fruit='Apple' THEN 'Owner is Apple'
+	     WHEN fruit='Orange' THEN 'Owner is Orange'
+	     ELSE 'Other FRUIT'
+	END     
+	
+#isnull
+#isnull retuns true if the col is null and false if the column is not null
+  select isnull(col1) from table1;
+  
+#isnotnull
+#isnotnull retuns false if the col is null and true if the column is not null
+  select isnotnull(col1) from table1;
+  
+#COALESCE  will select a non null value from the first column
+	select COALESCE(col1,col2,col3) from table1;
+	
+#NVL
+  

@@ -1,0 +1,11 @@
+#ceil function  The CEILING or CEILING function returns the smallest integer greater than or equal to the decimal value n.
+	select ceil(9.5);  //10
+	
+#floor function  
+	select floor(9.5);  //9
+	
+#round function  round off the decimal number, upto which no of digit we want the rounding off to be done.
+	select round(9.58,1);  //10
+	
+
+	

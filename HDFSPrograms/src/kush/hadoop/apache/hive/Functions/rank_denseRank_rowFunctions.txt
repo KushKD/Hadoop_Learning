@@ -1,0 +1,9 @@
+rLike is the short abbribeation for Right like.
+if any substring  of A matches to any substring of B it gives true
+
+select 'hadoop' rlike 'ha';  //true
+
+rlike returns null if any sting or substring is null 
+
+select '' rlike 'ha';  //null
+select 'x' rlike '';  //null

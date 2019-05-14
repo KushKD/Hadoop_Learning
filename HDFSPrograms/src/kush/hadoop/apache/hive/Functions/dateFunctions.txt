@@ -1,0 +1,40 @@
+#unix_timestamp
+ select unix_timestamp(date time);
+ select unix_timestamp('2019-05-14 00:00:00');  This command gives the no of seconds unix from 1970 so and so
+ 
+#Getting the date from seconds
+ select from_unixtime(no_of_seconds);
+ select from_unixtime(1234567);
+ 
+# To Date function it will accept string date as argument and returns the date
+	select TO_DATE('2019-05-14 00:00:00');  // 2019-05-14
+	
+#Year returns the year part of the date
+	select YEAR('2019-05-14 00:00:00');   //2019
+	
+#Month returns the month part of the date
+	select MONTH('2019-05-14 00:00:00');   //5
+
+#Day returns the month part of the date
+	select DAY('2019-05-14 00:00:00');   //14
+
+#Hour returns the year part of the date
+	select HOUR('2019-05-14 00:00:00');   //00
+	
+#Minute returns the month part of the date
+	select MINUTE('2019-05-14 00:00:00');   //00
+
+#Second returns the month part of the date
+	select SECOND('2019-05-14 00:00:00');   //00
+	
+#Week of Year
+	select WEEKOFYEAR('2019-05-14 00:00:00');   //retuns the number of week
+	
+#DATEDIFF date difference
+  select DATEDIFF('2019-05-14','2019-05-13'); //1
+  
+#Date Add, add the number of days to the current day
+	select DATE_ADD('2019-05-14',10); //2019-05-24
+	
+#Date Subtract, add the number of days to the current day
+	select DATE_SUB('2019-05-14',10); //2019-05-04

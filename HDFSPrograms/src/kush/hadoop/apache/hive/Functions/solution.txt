@@ -1,0 +1,28 @@
+#ID,#product,#buyprice,#sellprice,#units_purchsed,#units_sold,year
+RNMM302671MC,Oil,3,20,613,452,2002
+
+
+
+create database if not exists products comment 'Assignment Database' with dbproperties('creator'='kush','date'='2019-05-14');
+use  products;
+
+
+create table if not exists productsTable (
+id string,
+product_name string,
+buyPrice int,
+sellprice int,
+units_purchased int,
+units_sold int,
+year string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS textfile;
+
+LOAD DATA INPATH 'dataset/assignment.txt' INTO TABLE productsTable;
+
+SELECT * FROM productsTable;
+
+SELECT MAX(buyPrice) from productsTable;
+SELECT AVG(sellprice) FROM productsTable;
+SELECT AVG(buyPrice) FROM productsTable;

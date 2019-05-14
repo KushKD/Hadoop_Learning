@@ -1,0 +1,38 @@
+#Concat two string
+	select concat(col1,'-',col2) from table1;
+	
+#Length of  string in a column
+	select length(col1) from table1;
+	
+#lower function convers upper to lower case
+	select lower(col1) from table1;
+	
+#upper function convers lower to upper case
+	select upper(col1) from table1;
+	 
+#left side padding
+	select lpad(col1,10,'v') from table1;   //vvvvvvvvvs
+	
+#right side padding
+	select rpad(col1,10,'v') from table1;   //svvvvvvvvv
+	
+#trim  trims the spaces inside the string
+	select ltrim('     col1') from table1;  //left trim  col1
+	select rtrim('col1     ') from table1;  //right trim  col1
+	
+#repeat  column,no of times the data needs to be repeated
+	select repeat(col1,2) from table1;  //col1datacol1data
+	
+#reverse  a string
+	select reverse(col1) from table1; 
+	
+#split  a string on the basis of delemeter or special character
+	select split('hive:hadoop',':') ;  // "hive" "hadoop"
+	
+#substr is used to take out the part from the base string
+	select substr('hive is quering tool',4) ;  // e is quering tool
+	select substr('hive is quering tool',4,3) ;  // e i
+	
+ #instr is used to get the index of the character
+	select instr('hive is quering tool',e) ;  // returns the position of e 
+	   
