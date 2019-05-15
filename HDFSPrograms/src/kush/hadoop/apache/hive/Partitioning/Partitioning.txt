@@ -1,0 +1,103 @@
+ 
+ # Segregationg of Data into various directoreis
+ 
+ 
+ 
+ 
+ 
+ There are two types of Partitioning Static and dynamic.
+ They do partition the data into various directories and how they do it is different.
+ 
+ Static Partition We have to load the data into static parrtition manually. we should know what data is coming and in which partition we have to put it
+ into.
+ 
+ Creating a partition table:
+   
+   create table  if not exists par_table (
+   depno int,
+   employeename string,
+   salary int
+   )
+   partitioned by (department_name string)
+   row format delimited fields terminated by ','
+   stored as textfile;
+   
+   load data inpath 'dataset/data.txt' into table par_table  partition (deptname ='HR') ;
+   
+   insert into table par_table partition (deptname ='HR') select col1,col2,col3 from dept where col2='hr';
+   
+   Dynamic Partitioning:
+   By default dynamic partitioning is disabled. We have to enable it by this property
+   set hive.exec.dinamic.partition = true;
+   We also need to change the mode
+   set hive.exec.dynamic.partition.mode = nonstrict ; //by default it is strict mode
+   
+    Creating a partition table:
+   
+   create table  if not exists par_table1 (
+   depno int,
+   employeename string,
+   salary int
+   )
+   partitioned by (department_name string)
+   row format delimited fields terminated by ','
+   stored as textfile;
+   insert into table par_table partition (deptname) select col1,col3,col4,col2  from dept ;
+   #the column in which partitioning is donw should be in the last
+   
+   
+   Which partitioning type to use and when?
+   Static partitioninig is fast than dynamic 
+   
+   show partitions table_name;
+   
+   #To drop a partition froma table 
+   alter table table_name drop partition (table_name_part_name = 'HR');
+   
+   #To add a partition
+    alter table table_name add partition (table_name_part_name = 'DEV');
+    LOAD DATA INPATH 'dataset/dev.txt' INTO TABLE table_name  partition (deptname ='DEV') ;
+    
+   #add a partition
+    alter table  table_name add partition (table_name_part_name = 'FINANCE');
+    
+    We can also use MSCK REPAIR DIRECTORY COMMAND
+    msck repair table table_name;
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   

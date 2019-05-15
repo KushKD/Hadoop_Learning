@@ -1,0 +1,107 @@
+Bucketing
+
+Another data organizing technique in Hive
+All the same column values of a bucketed column will go into same bucket
+Can be used alone or along with Partition
+Best Practice to create a partition then a bucket
+
+
+	Employee Id   Department   Salary
+	
+	First create Partitions
+	 HR 
+	 Account
+	 Finance
+	 
+	 Then creating Buckets
+	 1st bucket contains salary range from 10000 till 50000 on the basis of hashing algorithm
+	 2nd bucket contains salary range from 50000 till 70000
+	 
+A bucket is a file where as a partition is a Directory.
+Bucket is a Physical File in table diractory
+We can explicitly set the number of buckets according to datasets.
+Partitioning and Bucketing are used side by side to achieve the highest level of optimizations
+Two bucketed tables will be joined very fast in hive (Both joining tables should be bucketed on the same column as per the joining column
+and both tables should have equal number of buckets.
+e.g.
+
+10,Accounts,Joyce,2098,Delhi
+dept_id,dept_name,emp_name,emp_salary,emp_loc
+
+create table if not exists department (
+dept_id  int,
+dept_name string,
+emp_name  string,
+emp_salary int,
+emp_loc   string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS textfile;
+LOAD DATA INPATH 'dataset/bucketData.txt) INTO department;
+
+#Now CREATING TABLE 2 
+create table if not exists department_pat (
+dept_id  int,
+emp_name  string,
+emp_salary int,
+emp_loc   string
+)
+PARTITIONED BY (dept_name string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS textfile;
+insert into table department_pat partition (dept_name) select col1,col3,col4,col5,col2  from department ;
+
+#By Default bucketing is not enabled, so we have to enable it
+set.hive.enforce.bucketing = true;
+set hive.exec.dinamic.partition = true;
+set hive.exec.dynamic.partition.mode = nonstrict ; 
+
+#Now creating the bucketing table
+create table if not exists department_bucket (
+dept_id  int,
+emp_name  string,
+emp_salary int,
+emp_loc   string
+)
+PARTITIONED BY (dept_name string)
+CLUSTERED BY (emp_loc)
+INTO 4 BUCKETS
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS textfile;
+insert into table department_bucket partition (dept_name) select col1,col3,col4,col5,col2  from department ;
+show partitions department_bucket;
+## Whatever number of task we provide the reduce task would be that
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

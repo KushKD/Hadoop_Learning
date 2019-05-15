@@ -1,0 +1,39 @@
+Collection of sample data from number of buckets is callled table sampling.
+
+e.g.
+SELECT * FROM dept_bucket LIMIT 15;
+The result will show data from just one bucket , and not from all.
+
+
+select dept_id,emp_name,emp_salary,emp_location from dept_bucket tablesample (bucket 1 out of 2 on emp_location);
+Now what tablesample function is doing.
+It is dividing your four buckets into group of 2 buckets each and then selecting first bucket of every group.
+
+tablesample (bucket 1 out of 3 on emp_location);
+It is dividing your four buckets into group of 3 buckets each and then selecting first bucket of every group.
+
+tablesample (2 percent);
+It will allow hive to get 2 % of the dataset.
+
+tablesample (1M);
+It will allow hive to pick atleast 1MB of data.
+
+tablesample (20 ROWS);
+It will allow hive to pick atleast 1MB of data.
+
+Gaurding our table
+NO_DROP command will prevent out table from being accendenlty dropped.
+alter table dept_bucket enable no_drop;
+alter table dept_bucket disable no_drop;
+
+#prevent a specific partition to be safe and not the other partitions
+alter table dept_partition partition (dept_name='HR') enable no_drop;
+
+
+OFFLINE : unable to view the table as it is offline.
+alter table dept_bucket enable offline;
+alter table dept_bucket disable offline;
+
+This command can be limited to a partitin table too
+alter table dept_partition partition (dep_name='HR') enable offline.
+
