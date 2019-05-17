@@ -1,0 +1,49 @@
+#cust_id,  #cust_name, #odr_date,#shipdt,#Courer,#recvd_dt,#returned or not,#returned dt,#reson of return
+GGYZ333519YS,Allison,01-01-2017,03-01-2017,Fedx,06-01-2017,no,null,null
+
+
+hadoop fs -copyFromLocal /home/hirwuser1249/hive/pat_ass.txt dataset
+
+create database if not exists assignment comment'This is an Assignment Database' with dbproperties('creator'='kush','date'='2019-05-16');
+
+use assignment;
+
+create external table if not exists assignment_table(
+cust_id string,
+cust_name string,
+odr_date string ,
+ship_date string  ,
+courer string,
+recvd_dt string ,
+returned_yn string,
+returned_date string ,
+reason string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS textfile;
+
+DESCRIBE FORMATTED TABLE assignment;
+LOAD DATA INPATH 'dataset/pat_ass.txt' INTO TABLE assignment_table;
+
+SELECT * FROM assignment_table;
+
+========================================================================================================================
+Creat Partition table with Partitioning at col 2
+
+create external table if not exists assignment_table_pat(
+cust_id string,
+odr_date string ,
+ship_date string  ,
+courer string,
+recvd_dt string ,
+returned_yn string,
+returned_date string ,
+reason string
+)
+PARTITIONED BY (cust_name string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS textfile;
+set hive.exec.dinamic.partition = true;
+set hive.exec.dynamic.partition.mode = nonstrict ;
+insert into table assignment_table_pat partition (cust_name) select cust_id,odr_date,ship_date,courer,recvd_dt,returned_yn,returned_date,reason,cust_name  from assignment_table ;
+
