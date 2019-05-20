@@ -1,0 +1,99 @@
+An Index acts as reference to records.
+Used to speed up searching the data
+Will search for only portion of data and not the whole data.set.
+
+PArtition is done at HDFS LEVEL 
+Indexing is done at Table Level
+
+Since Hive works with large dataset. Indexing is Benificial Here.
+
+#Creating an Index
+=========================
+
+create index i1 on table table9(col3) as 'COMPACT' with deferred rebuild;  //Index table empty
+
+i1 == index name
+table9 == Table name
+col3  == column on which index is to be built
+
+'COMPACT' with deferred rebuild meaning
+===============================================
+Why we have use COMPACT  , becauese we can use two types of indexes on a table 
+
+  COMPACT 
+  BITMAP   
+  
+  Both these indexes searves the same pupose but can give different fetching time based on the data of indexing columns.
+  The main difference between the two is, Storing of Mapped values of rows in differnt blocks.
+  
+  Compact  == BLOCK ID + VALUE
+           == Index Value + List of ROws as BITMAP
+           
+           
+with deferred rebuild == because we need to alter the index in later stages.
+#Altering the Index
+=====================
+alter index i1 on table9 rebuild;  //update our index, now the index table gets populated
+
+
+Creating Indexes Other Types and Format.
+=====================================================================================================================
+create index i1 on table table9(col3) as 'COMPACT' with deferred rebuild storing as rcfile;
+create index i1 on table table9(col3) as 'COMPACT' with deferred rebuild row format delimited fields terminated by '\n' stored as textfile;
+
+
+
+Multiple Index for a sample Table and any type of Index on same table.
+
+Creating a Bitmap Index on same Table
+=======================================
+create index i1 on table table9(col3) as 'BITMAP' with deferred rebuild;
+alter index i1 on table9 rebuild;  //Table indexing is incomplete without this command.
+
+We can have any number of Compact and BITMAP indexing on the same column in a table.
+
+#Check the number of Indexes for a table.
+==============================================
+Show formatted index on table9;
+
+#Droping Compact index
+================================================
+drop index i1 on table9;
+
+
+WHEN AND WHERE TO USE INDEXING
+===================================================
+WHEN TO USE
+		DATASET IS LARGE (GB)
+		SPEED IS CONCERNED
+		FREQUENT USE OF WHERE CLAUSE IN QUERY
+		
+		
+WHEN NOT TO USe
+		DATASET IS UNIQUE
+		NO FREQUENT USE OF WHERE CLAUSE IN THE QUERY.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

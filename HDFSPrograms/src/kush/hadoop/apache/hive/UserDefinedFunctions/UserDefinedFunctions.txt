@@ -1,0 +1,20 @@
+We can Create our own functions when built in functions do not serve the purpose.
+Functions are mostly written in JAVA LANGUAGE
+There are some rules to be adhered to while writing USER DEFINED FUNCTIONS
+
+STEPS:-
+		CREATE A JAVA PROGRAM IN ANY PLATFORM
+		SAVE OR CONVERT THE PROGRAM INTO A JAR FILE
+		ADD THAT JAR FILE INTO HIVE
+		CREATE FUNCTION OF THE JAR FILE ADDED
+		USE THOSE FUNCTIONS IN HIVE QUERY
+		
+
+		UDF IMPLEMENTATION
+========================================================================================================
+
+
+add jar /home/hirwuser1249/hive/udf.jar;
+CREATE TEMPORARY FUNCTION F2 as 'packagename of fthe function'
+
+SELECT f2(col2) from table_name;
