@@ -1,0 +1,234 @@
+Inner Join
+
+
+employee    id,name,designation,salary, managerId,department_id,code
+department  id,name,city,code
+
+Create table employees
+ #########################################################################3
+ create table if not exists employee_Table (
+ employee_id int,
+ employee_name string,
+ employee_designation string,
+ employee_salary int,
+ employee_managerId int,
+ employee_departmentId int,
+ code string
+ )
+
+ ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+ STORED AS TEXT FILE;
+ 
+ LOAD DATA INPATH 'dataset/employee.txt' INTO TABLE employee_Table;
+ 
+ Create TAble Department
+ #############################################################################
+ CREATE TABLE IF NOT EXISTS department_table(
+ department_id int,
+ department_name string,
+ department_city string,
+ code string,
+  )
+  ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+  STORED AS textfile;
+  
+  LOAD DATA INPATH 'dataset/department.txt' INTO TABLE department_table;
+ 
+ 
+ INNER JOIN TWO TABLE
+ ========================================================================================================================== 
+ Joining these two tables on the basis of Department ID
+ HIVE Supports Equals Operator in Joining Condition means only = works and no other operator works
+  
+ SELECT 
+ employee_table.employee_id, employee_table.employee_name, employee_table.employee_designation,
+ employee_table.employee_salary,employee_table.employee_managerId,employee_table.employee_departmentId,employee_table.employee_code,
+ 
+ deprtment_table.department_id,deprtment_table.department_name,deprtment_table.department_city,deprtment_table.department_code
+ 
+ FROM employee_table
+ JOIN department_table
+ ON (employee_table.employee_departmentId = deprtment_table.department_id);
+ 
+ 
+ OUTER JOINS
+ ============================================================================================================================
+ 
+ LEFT OUTER JOIN
+ ===============
+  SELECT 
+ employee_table.employee_id, employee_table.employee_name, employee_table.employee_designation,
+ employee_table.employee_salary,employee_table.employee_managerId,employee_table.employee_departmentId,employee_table.employee_code,
+ 
+ deprtment_table.department_id,deprtment_table.department_name,deprtment_table.department_city,deprtment_table.department_code
+ 
+ FROM employee_table
+ LEFT OUTERJOIN department_table
+ ON (employee_table.employee_departmentId = deprtment_table.department_id);
+ 
+
+ RIGHT OUTER JOIN
+ ===================
+  SELECT 
+ employee_table.employee_id, employee_table.employee_name, employee_table.employee_designation,
+ employee_table.employee_salary,employee_table.employee_managerId,employee_table.employee_departmentId,employee_table.employee_code,
+ 
+ deprtment_table.department_id,deprtment_table.department_name,deprtment_table.department_city,deprtment_table.department_code
+ 
+ FROM employee_table
+ RIGHT OUTER JOIN department_table
+ ON (employee_table.employee_departmentId = deprtment_table.department_id);
+ 
+ 
+ FULL OUTER JOIN
+ =====================
+  SELECT 
+ employee_table.employee_id, employee_table.employee_name, employee_table.employee_designation,
+ employee_table.employee_salary,employee_table.employee_managerId,employee_table.employee_departmentId,employee_table.employee_code,
+ 
+ deprtment_table.department_id,deprtment_table.department_name,deprtment_table.department_city,deprtment_table.department_code
+ 
+ FROM employee_table
+ FULL OUTER JOIN department_table
+ ON (employee_table.employee_departmentId = deprtment_table.department_id);
+ 
+ 
+ JOIN THREE TABLES IN JOIN
+ ==============================================================================================================================
+ 
+third_table   departmentId , SomeString
+
+CREATE TABLE IF NOT EXISTS third_table (
+depaartment_id int,
+SomeString string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS textfile;
+
+LOAD DATA INPATH 'dataset/thirdTable.txt' INTO TABLE third_table;
+
+Join Three Tables using Department ID:-
+=========================================
+
+ 
+  SELECT 
+ employee_table.employee_id, employee_table.employee_name, employee_table.employee_designation,
+ employee_table.employee_salary,employee_table.employee_managerId,employee_table.employee_departmentId,code,
+ 
+ deprtment_table.department_id,deprtment_table.department_name,deprtment_table.department_city,code,
+ 
+ third_table.SomeString
+ 
+ FROM employee_table
+ JOIN department_table
+ ON (employee_table.employee_departmentId = deprtment_table.department_id)
+ JOIN third_Table
+ ON (deprtment_table.department_id = third_table.depaartment_id);
+ 
+============================================================================================================================
+First Two Tables Join On Some Condition and then the Third table join on Some Other Condition
+============================================================================================================================
+
+  SELECT 
+ employee_table.employee_id, employee_table.employee_name, employee_table.employee_designation,
+ employee_table.employee_salary,employee_table.employee_managerId,employee_table.employee_departmentId,code,
+ 
+ deprtment_table.department_id,deprtment_table.department_name,deprtment_table.department_city,code,
+ 
+ third_table.SomeString
+ 
+ FROM employee_table
+ JOIN department_table
+ ON (employee_table.code = deprtment_table.code)
+ JOIN third_Table
+ ON (deprtment_table.department_id = third_table.depaartment_id);
+ 
+ 
+ 
+ MEMORY MANAGEMENT USING (/*+ STREAMTABLE (employee_table) */)
+ ==========================================================================================================================
+ 
+  SELECT /*+ STREAMTABLE (employee_table) */
+ employee_table.employee_id, employee_table.employee_name, employee_table.employee_designation,
+ employee_table.employee_salary,employee_table.employee_managerId,employee_table.employee_departmentId,code,
+ 
+ deprtment_table.department_id,deprtment_table.department_name,deprtment_table.department_city,code,
+ 
+ third_table.SomeString
+ 
+ FROM employee_table
+ JOIN department_table
+ ON (employee_table.code = deprtment_table.code)
+ JOIN third_Table
+ ON (deprtment_table.department_id = third_table.depaartment_id);
+  
+  
+  Other Advanced Optimizations
+  ===========================================================================================================================
+  Performing Join On Mapper Side and Not on Reducer Side
+  
+  SELECT /*+ MAPJOIN (employee_table) */
+ employee_table.employee_id, employee_table.employee_name, employee_table.employee_designation,
+ employee_table.employee_salary,employee_table.employee_managerId,employee_table.employee_departmentId,code,
+ 
+ deprtment_table.department_id,deprtment_table.department_name,deprtment_table.department_city,code,
+ 
+ third_table.SomeString
+ 
+ FROM employee_table
+ JOIN department_table
+ ON (employee_table.code = deprtment_table.code)
+ JOIN third_Table
+ ON (deprtment_table.department_id = third_table.depaartment_id);
+  
+  
+  set hive.auto.convert.join = true // by default tell the Hive touse MAP JOIN
+  hive.mapjoin.smalltable.filesize; // Tells the file size of the table i.e. the limit of the table on the basis of which hicve considers
+  										the table as small table.
+  										
+We cannot perform full outer Map Join using MAP JOIN
+
+Bucketed MAP JOINS Whereever Possible:-
+Properties
+set hive.input.format = org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;
+set hive.optimize.bucketmapjoin=true;
+set hive.auto.convert.sortmerge.join = true;
+set hive.optimize.bucketmapjoin.sortedmerge=true;
+
+Both the Tables should have equal number of Buckets and both tables should be joined on the same column on which they are bucketed on.
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+ 

@@ -1,0 +1,108 @@
+A View is a Virtual table created as a result of a Hive Query on the Table.
+
+Properties of Views:
+		--Views does not contain any Data on its own
+		--All type of DML Operations can be performed on View
+		--Can be created by selecting any number of Rows or columns of its base table/tables
+		--Once Created,the schema of View is frowzen and is independent of changed made to base table schema. 
+			If we want to change the VIEW SCHEMA we need to use the ALTER VIEW COMMAND
+		--Also, Changing the VIEW schema won't change the Table schema.
+		--VIEWs are READ ONLY, DROPand Truncate wont affect the base table.
+		--Droping the Base table and we cannot fire queries on View
+
+
+CREATING A VIEW
+========================================================================================================================
+First Creating a View on the Base tAble, Our base tablle will be employee_table.
+
+CREATE VIEW employee_view AS SELECT * FROM employee_table;
+SELECT * FROM employee_view1;
+
+
+#CREATE VIEW wilth Less columns
+===================================
+CREATE VIEW employee_view1 AS SELECT employee_id,employee_name,employee_designation from employee_table;
+SELECT * FROM employee_view1;
+
+#SELECTING SELECTIVE COLUMNS FROM VIEW
+========================================
+SELECT employee_id,employee_name FROM employee_view1;  //Same colums names are used as we hav'nt specified any column name while creating a view
+
+#Providing Explicit Column Names while creating a View
+========================================================
+create view if not exists employee_view3 as 
+SELECT employee_id as id, employee_name as name, employee_designation as designation
+FROM employee_Table;
+
+SELECT * FROM employee_view3;
+
+CREATING VIEWS FROM A MULTIPLE TABLES USING JOIN QUERY
+==========================================================
+create view if not exists employee_view4 as
+SELECT
+employee_table.employee_id, employee_table.employee_name, employee_table.employee_designation,
+ employee_table.employee_salary,employee_table.employee_managerId,employee_table.employee_departmentId,employee_table.employee_code,
+ 
+ deprtment_table.department_id,deprtment_table.department_name,deprtment_table.department_city,deprtment_table.department_code
+ 
+ FROM employee_table
+ JOIN department_table
+ ON (employee_table.employee_departmentId = deprtment_table.department_id);
+ 
+ SELECT * FROM employee_view4;
+ 
+ ALTER A VIEW
+ ==============================================================
+ ALTER VIEW employee_view as
+ SELECT employee_id FROM employee_table;
+ 
+ SELECT * from employee_view;
+ 
+ #Renaiming the View
+ ===================================================================
+ alter view employee_view rename employee_view_new;
+ SELECT * FROM employee_view_new;
+ 
+ #Droping the VIEW
+ ====================================================================
+ DROP VIEW employee_view_new;
+ 
+ 
+ #   ADVANTAGES OF VIEWS 
+ =====================================================================
+		 Views can be used to hide underlying table columns from some users
+		 Views protect our base table from being accedently dropped or altered
+		 Views ca help turning the leanthy and complicated query into one linear query.
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
