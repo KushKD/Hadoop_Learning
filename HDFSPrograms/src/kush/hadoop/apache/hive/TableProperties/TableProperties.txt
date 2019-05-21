@@ -1,0 +1,217 @@
+Table Properties are associated with the Table.
+Table Properties can be 
+		active
+		Passive
+		
+
+		PAssive Properties:- Do nothing Just Tag A Table. e.g. date of creation, creator name , etc.
+		Active Properties:- Used for data processing.
+		
+#Skipping Header and Footer Records while loading the table
+=================================================================
+create table if not exists table1(
+col1 int,
+col2 string
+)
+row format delimited fields terminated by ','
+stored as textfile
+tblproperties("skip.header.line.count"="3");
+
+3 = top three lines are related to OS Data
+
+create table if not exists table1(
+col1 int,
+col2 string
+)
+row format delimited fields terminated by ','
+stored as textfile
+tblproperties("skip.footer.line.count"="3");
+
+Last three lines are 
+system=linux.14.0.1
+version=2.0
+sub-version=3.4 
+and 3 is the count of these lines.
+
+
+=============================================================================
+#Immutable Table Property (How to make a Table Immutable)
+=============================================================================
+All the Tables by Default are called Mutable Tables
+A table can be created as immutable by setting the immutable property of the table to TRUE
+
+create table if not exists table1(
+col1 string,
+col2 int
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile
+tblproperties("skip.header.line.count"="3", "immutable"="true");
+
+
+=============================================================================
+#Purge Property + Difference Between Drop and Truncate
+=============================================================================
+
+DROP = REMOVES the META DATA (Structure of the Table) and DATA of the Table
+TRUNCATE = REMOVES the DAta only, Meta Data and Structure of the table is not removed from hive.
+
+PURGE is a TABLE PROPERTY , if PURGE is set to true then in case of droping an internal table , the data won't go to trash it will 
+permanntly gone.
+
+
+create table if not exists table1(
+col1 string,
+col2 int
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile
+tblproperties("skip.header.line.count"="3", "immutable"="true", "auto.purge"="true");
+
+
+=============================================================================
+#NULL FORMAT PROPERTY  {Refer prop file}
+=============================================================================
+
+We have three columns 
+John,,200   column 2 is  empty //Hive will read it as a normal empty value
+Albert,HR,1900
+
+To capture the NULL we need to us the NULL PROPERTY
+create table if not exists table1(
+col1 string,
+col2 int
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile
+tblproperties("skip.header.line.count"="3", "immutable"="true", "auto.purge"="true", "serialization.null.format"="");
+
+"serialization.null.format"="" // since we have empty values, we can pass here any value
+
+
+=============================================================================
+#ACIT TRANSACTIONAL FEATURES OF HIVE
+=============================================================================
+
+	Limitations on Transactions in HIVE
+			Only Supports ORC FIle Format
+			TABLE MUST BE BUCKETED
+			BEGIN,COMMIT and ROLLBACK FRATURES are not supported
+			Reading/Writing to an acid table is only allowed in a session where transactional properties are true
+			
+PROPERTIES TO SET
+set hive.support.concurrency = true;
+set hive.enforce.bucketing = true;
+set hive.exec.dynamic.partition.mode = nonstrict;
+set hive.compactor.initlator.on = true;
+set hive.compactor.worker.threads = 1 ;//+ve integer for no of threads
+set hive.txn.manager =org.apache.hadoop.hive.ql.lockmgr.DBTxnManager;
+
+One more property need to be set in the HIVE folder as it is not runtime
+GO to the folder where hive is installed
+cd /usr/lib/hive/apache-hive-0.14.0-bin
+cd conf
+sudo gedit hive-site.xml
+
+<property>
+<name>hive.in.test</name>
+<value>true</value>
+</property>
+
+create table if not exists employee(
+emp_id int,
+emp_name string,
+emp_dep string
+)
+clustered by (emp_name) into 4 buckets
+stored as ORC
+tblproperties("transactional"="true");
+
+INSERT INTO table employee values
+('101','JACK','HR'),
+('102','KD','Programmer');
+
+update employee set emp_dep='Account' where emp_id = '102';
+
+delete from employee where emp_id = '102';
+
+
+=============================================================================
+#ORC Table Properties  https://orc.apache.org/docs/hive-config.html
+=============================================================================
+EACH FILE FORMAT HA ITS OWN FILE PROPERTIES
+
+//CREATE TABLE WITH ORC FILE FORMAT
+create table if not exists table_orc(
+col1 string,
+col2 string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS ORC
+tblproperties("orc.compress"="zlib");  //snappy,bzip2,gzip
+
+show tblproperties table_orc;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
