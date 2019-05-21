@@ -1,0 +1,23 @@
+Complex DataTypes
+
+Structs
+
+user STRUCT<
+		sceen_name:string,
+		name:string,
+		location:string,
+		etc
+		>
+		
+		
+		
+Array
+
+
+
+
+
+
+MAP
+
+
