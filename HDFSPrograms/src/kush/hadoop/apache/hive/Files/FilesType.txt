@@ -1,0 +1,22 @@
+
+What exactly we want from a File
+	Get Read Fast
+	Get Written Fast
+	Be Splittable: multiple task can run parallel on parts of file
+	Support schema evolution, allowing us to change schema of file
+	Supports advance Compression through various available compression codecs (BZIP2, LZO, Snappy, etc.)
+	
+	#Custom Input format in HIVE
+	==============================
+	
+	
+	#Modes In Hive
+	==============================
+	Embedded Mode
+		
+			Driver -> MetaStore ->Derby   // Everything inside a JVM
+			
+			
+  TEZ
+  =============================
+  

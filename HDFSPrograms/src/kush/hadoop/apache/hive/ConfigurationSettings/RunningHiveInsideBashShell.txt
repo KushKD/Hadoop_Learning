@@ -1,0 +1,34 @@
+Firing Hive Queries from Bash Shell
+
+	we have two options for this:
+				-e  is to fire a hive query from bash shell
+				-f  is to fire a hive script from bash shell
+				-h  print help information
+				-s  silent mode to avoid operational messages
+				-i <filename> File Initialization  //takes the script file name and initializes the variables inside it
+				-h <server> connect hive server to remote host
+				-p <port number> connect hive server on port number
+				-v execute the verbose mode
+				
+So in bash shell inside hadoop path we have to write
+       hive -e 'select * from employee;'
+       
+Running multiple hive queries in a single command
+
+		hive -e 'select * from employee; select * from employee where col6=20;'	
+		
+		
+		
+Running Hive Scripts inside HIVE Shell
+	
+	Create a Hive Script	
+	  New Doc 
+	  	select * from employee; 
+	  	select * from employee where col6=20;
+	  Save DOC as script.hql
+	  
+	  Hive script is created
+	hive>  source /home/hirwuser1249/hive/script.hql
+	
+Inside Bash Shell 
+		hive -f  /home/hirwuser1249/hive/script.hql

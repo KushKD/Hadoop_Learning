@@ -1,0 +1,13 @@
+select * from emp_tab where col6=${hiveconf:deptno};
+select col1,${name} from emp_tab where col6 =${hiveconf:deptno};  
+
+------------------------------------------------------------------------------------------------------
+
+hive --hiveconf deptno=20 -e 'select * from emp_tab where col6 =${hiveconf:deptno};'
+
+hive --hivevar deptno=10 -e 'select * from emp_tab where col6 =${deptno};' 
+
+hive --hivevar deptno=10 --hiveconf tablename=emp_tab -e 'select * from ${hiveconf:tablename} where col6 =${deptno};' 
+
+hive --hivevar empid=col1 --hiveconf tablename=emp_tab --hivevar deptno=10 -f /home/jivesh/script.hql
+

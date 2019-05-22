@@ -1,0 +1,65 @@
+Hive Congig and HiveVaV   
+Variables:
+
+Hive provides us with two types of variable  
+
+Declaring a Variable in Hive Shell
+=====================================
+set department_no = 40;
+Here we are setting a variable  department_no with its value 40
+		
+			OR
+set hiveconf:d1=20;
+set d1
+
+See tha Variable Value
+=====================================
+set department_no;
+
+Using a Variable inside Hive Query
+========================================
+select * from department_table where department_id = ${hiveconf:d1};
+select * from department_table where department_id = ${d1}; //If we remove the hiveconf prefix query gives an error
+
+ hiveconf: sets the value locally
+ 
+ 
+ 
+ 
+ hivevar: sets the value globally
+ set hivevar:department_number=10;
+ select * from department_table where department_id = ${department_number};  or
+ select * from department_table where department_id = ${hivevar:department_number}; 
+ 
+ These variables hiveconf and hivevar are set just for that respective hive sessions.
+ 
+ Assigning Variable to a Variable in Hive
+ ===============================================
+ set hive.variable.substitute=true;
+ 
+ set table = table9;
+ set new_table = ${hiveconf:table};
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

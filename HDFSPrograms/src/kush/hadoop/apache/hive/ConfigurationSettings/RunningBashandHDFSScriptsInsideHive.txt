@@ -1,0 +1,9 @@
+Runnig Bash Scripts and HDFS Inside Hive
+
+To use HDFS Commands in HIVE shell just use ! sign followed by the command
+ie. !hadoop fs -ls
+
+To use UNIX Commands in HIVE shell just use ! sign followed by the command
+ie. !ls , !mkdir etc.   
+Pipe does not works in Hive shell
+
