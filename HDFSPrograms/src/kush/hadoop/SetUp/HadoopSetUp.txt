@@ -1,0 +1,38 @@
+
+Hadoop Vrndors
+	Cloudera
+	HortonWorks
+	MapR
+	
+	
+Where To Install Hadoop  (Hosting Clusters)
+	Amazon Web Service
+	Google Cloud Platform
+	Microsoft Asure
+	Rackspace the Open cloud company
+	
+AWS Hadoop SetUP (https://aws.amazon.com/)
+=================
+https://aws.amazon.com/
+Create Account and then Go to Console and Select EMR
+EMR = Elastic Map Reduce
+
+Installing Cloudera CDH  Version 5.4
+Useually we install the namenode and Resource manager on different nodes, but we are going to install them in the single node
+We will be installing the node manager to the other two data nodes
+
+
+Masternode we will install namenode and Resource Manager
+Slaves we will install datanode and NodeManager
+
+OS:Ubuntu 14.04 Trusty 
+JDK: 1.8 Latest Release
+Cloudera Hadoop: Version 5.4
+
+======================================================
+Starting 3 instances of Linux Ubuntu in amazon Clustor
+======================================================
+Go to EC2 service to start linux instances
+Launch Instance
+Choose an Amazon Machine Image (AMI)
+
