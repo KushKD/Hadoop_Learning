@@ -1,0 +1,47 @@
+--Private DNS
+
+ip-172-31-34-130.ec2.internal
+ip-172-31-34-131.ec2.internal
+ip-172-31-34-128.ec2.internal
+ip-172-31-34-129.ec2.internal
+
+--Public DNS
+
+ec2-54-234-249-71.compute-1.amazonaws.com
+ec2-54-152-192-135.compute-1.amazonaws.com
+ec2-54-234-124-9.compute-1.amazonaws.com
+ec2-54-86-237-176.compute-1.amazonaws.com
+
+--Download Cloudera Manager
+
+wget http://archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin
+
+--Start Installer
+
+sudo su
+chmod +x cloudera-manager-installer.bin
+./cloudera-manager-installer.bin
+
+--Cloudera Manager
+
+http://ec2-54-234-249-71.compute-1.amazonaws.com:7180
+admin / admin
+
+--Location of configuration file
+
+/etc/hadoop/conf
+
+--Location of installation files
+
+/opt/cloudera/parcels/
+
+
+--Create user ubuntu in HDFS
+
+sudo -u hdfs hadoop fs -mkdir /user
+sudo -u hdfs hadoop fs -mkdir /user/ubuntu
+sudo -u hdfs hadoop fs -chown ubuntu:ubuntu /user/ubuntu
+
+--pi estimator to validate YARN
+
+hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-examples.jar pi 2 5
